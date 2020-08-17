@@ -8,7 +8,7 @@
 
 ### Compile MILC
 
-Clone the custom MILC at https://github.com/ylin910095/milc_baryon.git
+Clone the `feature/gb-baryon-ptsrc` branch of custom MILC at https://github.com/ylin910095/milc_baryon.git
 Besides the usual MILC compilation steps (remember to set OMP = true to enable openMP!), you will need to go to the file ```./generic_ks/gb_baryon_mmap.c``` and edit the line reads ```#define GB_DIRECTORY``` to the desired scratch directory. All the memory maps wil be saved and automatically erased in this directory during the run. Once the Makefile is properly set, go to ```ks_spectrum``` and type ```make ks_spectrum_hisq_gb_baryon_blind_no_sink_links``` to produce binary.
 
 ### Running setup
