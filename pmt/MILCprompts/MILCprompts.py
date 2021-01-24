@@ -229,6 +229,44 @@ class CornerWall8Container:
             pass
         return
 
+class VectorField8Container:
+    """Container for the 8 VectorFieldSource of the unit cube."""
+    _Template = """
+    #== source octet ${id}: ${_classType} ==
+    octet $source[0].id $source[1].id $source[2].id $source[3].id $source[4].id $source[5].id $source[6].id $source[7].id"""
+    def __init__(self,load,origin,ncolor,subset,
+                 momentum,scaleFactor,label,save):
+        self._classType = self.__class__.__name__
+        self._objectID = self._classType+'_'+base36(id(self))
+        self.source = list()
+        self.load = load
+        self.origin = origin
+        self.ncolor = ncolor
+        self.subset = subset
+        self.momentum = momentum
+        self.scaleFactor = scaleFactor
+        self.label = label
+        self.save = save
+
+        # Loop over corners
+        for i in range(8):
+            cLoad = NameFormatCube(self.load, vecStr[i])
+            cLabel = NameFormatCube(label,vecStr[i])
+            cSave = NameFormatCube(self.save, vecStr[i])
+            appendV = VectorFieldSource(cLoad,self.origin,self.ncolor,self.subset,
+                                        self.momentum,self.scaleFactor,cLabel,cSave)
+            self.source.append(appendV) 
+
+        self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
+    def generate(self,ostream):
+        print>>ostream, self._template
+        return
+    def addSourcesToSpectrum(self,spect):
+        for i in range(8):
+            spect.addBaseSource(self.source[i])
+            pass
+        return
+
 class BaseSource8Container:
     """Container for loading any set of 8 sources for all corners of the unit cube.
     """
@@ -297,6 +335,53 @@ class GeneralSource8Container:
             spect.addModSource(self.modifd[i])
             pass
         return
+
+
+class ExtSrc8Modification:
+    """Container for applying a KSExtSrc to an octet of sources.
+       Applies the input function to all the sources in the octet. Input function
+       should have only three arguments: source,label,save."""
+    _Template = """
+    #== source octet ${id}: ${_classType} ==
+    octet $modifd[0].id $modifd[1].id $modifd[2].id $modifd[3].id $modifd[4].id $modifd[5].id $modifd[6].id $modifd[7].id"""
+    def __init__(self,src8,spin_taste_op,momentum,tsrc,label,save):
+        self._classType = self.__class__.__name__
+        self._objectID = self._classType+'_'+base36(id(self))
+        self.src8 = src8
+        self.spin_taste_op = spin_taste_op
+        self.momentum = momentum
+        self.tsrc = tsrc 
+        self.label = label
+        self.save = save
+        self.source = list()
+        self.modifd = list()
+        self.nSrc = len(src8.source)
+
+        # If the source is a base source
+        for i in range(self.nSrc): 
+            cLabel = NameFormatCube(label,vecStr[i])
+            cSave = NameFormatCube(save,vecStr[i])
+            appendV = KSExtSrc(self.src8.source[i],self.spin_taste_op,
+                             self.momentum,self.tsrc,cLabel,cSave)
+            self.modifd.append(appendV)
+
+        # If the source is a modified source
+        for i in range(8-self.nSrc): 
+            cLabel = NameFormatCube(label,vecStr[i+self.nSrc])
+            cSave = NameFormatCube(save,vecStr[i+self.nSrc])
+            appendV = KSExtSrc(self.src8.modifd[i],self.spin_taste_op,
+                             self.momentum,self.tsrc,cLabel,cSave)
+            self.modifd.append(appendV)
+        self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
+    def generate(self,ostream):
+        print>>ostream, self._template
+        return
+    def addSourcesToSpectrum(self,spect):
+        for i in range(8):
+            spect.addModSource(self.modifd[i])
+            pass
+        return
+
 
 class GeneralSource8Modification:
     """Container for applying a source modification to an octet of sources.
@@ -450,10 +535,11 @@ class CornerWallSource:
     pass
 
 class VectorFieldSource:
-    """Color vector field base source input from a file."""
+    """Color vector field base source input from a file. For KS only for now."""
     _Template = """
     #== source ${id}: ${_classType} ==
     vector_field
+    field_type KS
     subset ${subset}
     origin #echo ' '.join(map(str,$origin))#
     #echo ' '.join($load)#
@@ -1072,18 +1158,53 @@ class QuarkIdentitySink8Container:
     """Container for 8 QuarkIdentitySinks for corner walls."""
     """Uses KSsolveSet8Container for variable prop8 in place of single sources"""
     """Groups by masses; index indicates mass"""
-    def __init__(self,prop8,index,label,save):
+    def __init__(self,prop8,index,label,save,multisource=False,multisrc_prop_idx=None):
         self._classType = self.__class__.__name__
         self._objectID = self._classType+'_'+base36(id(self))
         self.quark = list()
-        self.index = index
+        self.index = index 
         self.mass = prop8.mass[index]
         self.naik = prop8.naik[index]
         for i in range(8):
-            prop = prop8.solveset[i].propagator[index]
+            if not multisource:
+                prop = prop8.solveset[i].propagator[index]
+            else:
+                # Multisource solves could contain multiple octets in one 
+                # set of solves, multisrc_prop_idx indicates which one to apply 
+                prop = prop8.solveset[0].propagator[multisrc_prop_idx*8+i] 
             self.quark.append(QuarkIdentitySink(prop,
-              NameFormatMass(NameFormatCube(label,vecStr[i]),self.mass),
-              NameFormatMass(NameFormatCube(save,vecStr[i]),self.mass))) ## num->str
+            NameFormatMass(NameFormatCube(label,vecStr[i]),self.mass),
+            NameFormatMass(NameFormatCube(save,vecStr[i]),self.mass))) ## num->str
+            pass
+    def addQuarksToSpectrum(self,spect):
+        for i in range(8):
+            spect.addQuark(self.quark[i])
+            pass
+        return
+
+class SaveVectorSrc8Container:
+    """Container for 8 SaveVectorSrc"""
+    """Uses KSsolveSet8Container for variable prop8 in place of single sources"""
+    """Groups by masses; index indicates mass"""
+    def __init__(self,prop8,index,label,save_src,t0,
+                 save_quark,multisource=False,multisrc_prop_idx=None):
+        self._classType = self.__class__.__name__
+        self._objectID = self._classType+'_'+base36(id(self))
+        self.quark = list()
+        self.index = index 
+        self.mass = prop8.mass[index]
+        self.naik = prop8.naik[index]
+        for i in range(8):
+            if not multisource:
+                prop = prop8.solveset[i].propagator[index]
+            else:
+                # Multisource solves could contain multiple octets in one 
+                # set of solves, multisrc_prop_idx indicates which one to apply 
+                prop = prop8.solveset[0].propagator[multisrc_prop_idx*8+i] 
+            self.quark.append(SaveVectorSrc(prop,
+                NameFormatMass(NameFormatCube(label,vecStr[i]),self.mass),
+                NameFormatMass(NameFormatCube(save_src,vecStr[i]),self.mass),t0,
+                NameFormatMass(NameFormatCube(save_quark,vecStr[i]),self.mass))) 
             pass
     def addQuarksToSpectrum(self,spect):
         for i in range(8):
@@ -1096,7 +1217,8 @@ class QuarkModificationSink8Container:
        Uses KSsolveSet8Container for variable prop8 in place of single sources
        Groups by masses; index indicates mass
        Input function should have only three arguments: prop,label,save."""
-    def __init__(self,prop8,inputfn,index,label,save):
+    def __init__(self,prop8,inputfn,index,label,save,
+                 multisource=False,multisrc_prop_idx=None):
         self._classType = self.__class__.__name__
         self._objectID = self._classType+'_'+base36(id(self))
         self.quark = list()
@@ -1104,11 +1226,17 @@ class QuarkModificationSink8Container:
         self.mass = prop8.mass[index]
         self.naik = prop8.naik[index]
         for i in range(8):
-            prop = prop8.solveset[i].propagator[index]
+            if not multisource:
+                prop = prop8.solveset[i].propagator[index]
+            else:
+                # Multisource solves could contain multiple octets in one 
+                # set of solves, multisrc_prop_idx indicates which one to apply 
+                prop = prop8.solveset[0].propagator[multisrc_prop_idx*8+i]  
             self.quark.append(inputfn(prop,
-              NameFormatMass(NameFormatCube(label,vecStr[i]),self.mass),
-              NameFormatMass(NameFormatCube(save,vecStr[i]),self.mass))) ## num->str
+            NameFormatMass(NameFormatCube(label,vecStr[i]),self.mass),
+            NameFormatMass(NameFormatCube(save,vecStr[i]),self.mass))) ## num->str
             pass
+
     def addQuarksToSpectrum(self,spect):
         for i in range(8):
             spect.addQuark(self.quark[i])
@@ -1151,6 +1279,35 @@ class QuarkIdentitySink:
         return { 'name': wname, 'depends': depends,
                  'requires': requires, 'produces': produces }
     pass
+
+class SaveVectorSrc:
+    """
+    Saving the quark as source
+    """
+    _Template = """
+    #== quark ${id}: ${_classType} ==
+    ${prop.type} ${prop.id}
+    save_vector_src
+    #echo ' '.join($save_src)#
+    t0 ${t0}
+    op_label ${label}
+    #echo ' '.join($save_quark)#"""
+    def __init__(self,prop,label,save_src,t0,save_quark,quark8=False):
+        self._classType = self.__class__.__name__
+        self._objectID = self._classType+'_'+base36(id(self))
+        self.prop = prop
+        self.save_src = save_src
+        self.t0 = t0
+        self.label = label
+        self.save_quark = save_quark
+        self.quark8 = quark8
+        self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
+        return
+    def generate(self,ostream):
+        print>>ostream, self._template
+        return
+    pass
+
 
 class KSQuarkOctet:
     """Consolidates 8 ks quarks into an octet for use in Golterman-Bailey Baryon spectra"""
@@ -2188,6 +2345,53 @@ class su3_clov:
     pass
 
 #----
+class KSsolveSetNContainer_MultiSource:
+    """Container for Arbitrary number of octet for multisource"""
+    """Container for 8 KSsolveSets for octets."""
+    """Uses CornerWall8Container or VectorSource8Container
+       for variable source8 in place of single sources"""
+    def __init__(self,twist,bc,check,maxCG,precision,
+                 mass,naik_epsilon,residuals):
+        self._classType = self.__class__.__name__
+        self._objectID = self._classType+'_'+base36(id(self))
+        self.source8List = list() # list of sources in octets
+        self.twist = twist
+        self.bc = bc 
+        self.check = check
+        self.maxCG = maxCG
+        self.precision = precision
+        self.residuals = residuals
+        self.mass = mass
+        self.naik = naik_epsilon
+        self.nmass = len(mass)
+        self.solveset = [KSsolveSet_MultiSource(
+                        self.twist,self.bc,self.check,
+                        self.maxCG,self.precision,
+                        self.mass[0], self.naik[0])] # only one set
+
+
+    def appendSolveSet(self,src8,load,save):
+        """
+        Append more solves to a single set of solvers for multisource
+        """
+        self.source8List.append(src8)
+        nSrc = len(src8.source)
+        for iciter in range(8):
+            loadt = NameFormatCube(load,vecStr[iciter])
+            savet = NameFormatCube(save,vecStr[iciter])
+            loadformat = NameFormatMass(loadt,self.mass[0])
+            saveformat = NameFormatMass(savet,self.mass[0])
+            if(iciter < nSrc):
+                isrc = src8.source[iciter]
+            else:
+                isrc = src8.modifd[iciter-nSrc]
+            prop = KSsolveElement_MultiSource(
+                    isrc,loadformat,saveformat,self.residuals)
+            self.solveset[0].addPropagator(prop) # only one set 
+        
+    def addSolvesToSpectrum(self,spect):
+        spect.addPropSet(self.solveset[0]) # only one set
+        return
 
 class KSsolveSet8Container:
     """Container for 8 KSsolveSets for octets."""
@@ -2198,34 +2402,41 @@ class KSsolveSet8Container:
         self._classType = self.__class__.__name__
         self._objectID = self._classType+'_'+base36(id(self))
         self.solveset = list()
+        self.source8 = source8
+        self.twist = twist
+        self.bc = bc 
+        self.check = check
+        self.maxCG = maxCG
+        self.precision = precision
+        self.residuals = residuals
         self.mass = mass
         self.naik = naik_epsilon
         self.nmass = len(mass)
         self.nSrc = len(source8.source)
+
         for i in range(8):
             if(i < self.nSrc):
-              ## CornerWall8Container and VectorSource8Container
-              self.solveset.append(KSsolveSet(source8.source[i],
-                twist,bc,check,maxCG,precision))
+                ## CornerWall8Container and VectorSource8Container
+                self.solveset.append(KSsolveSet(source8.source[i],
+                    twist,bc,check,maxCG,precision))
             else:
-              ## VectorSource8Container / GeneralSource8Container
-              self.solveset.append(KSsolveSet(source8.modifd[i-self.nSrc],
-                twist,bc,check,maxCG,precision))
-              pass
+                ## VectorSource8Container / GeneralSource8Container
+                self.solveset.append(KSsolveSet(source8.modifd[i-self.nSrc],
+                    twist,bc,check,maxCG,precision))
+                pass
             loadt = NameFormatCube(load,vecStr[i])
             savet = NameFormatCube(save,vecStr[i])
             for m, nk in zip(mass,naik_epsilon):
                 prop = KSsolveElement(m,nk,
-                  NameFormatMass(loadt,m),
-                  NameFormatMass(savet,m),residuals)
+                NameFormatMass(loadt,m),
+                NameFormatMass(savet,m),residuals)
                 self.solveset[i].addPropagator(prop)
                 pass
             pass
+        
     def addSolvesToSpectrum(self,spect):
         for i in range(8):
             spect.addPropSet(self.solveset[i])
-            pass
-        return
 
 class KSsolveSet:
     """A set of KS solves that have a common source specification, momentum twist, BC and precision."""
@@ -2304,6 +2515,109 @@ class KSsolveElement:
         self.parent = None # the KSsolveSet
         self.mass = mass
         self.naik = naik
+        self.load = load
+        self.save = save
+        self.residual = residual
+        self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
+        return
+    def generate(self,ostream):
+        print>>ostream, self._template
+        return
+    def dataflow(self):
+        wname = self._objectID
+        depends = list()
+        requires = list()
+        produces = list()
+        depends.append(self.parent._objectID)
+        if len(self.load) > 1:
+            requires.append(self.load[1])
+            pass
+        if len(self.save) > 1:
+            produces.append(self.save[1])
+            pass
+        return { 'name': wname, 'depends': depends,
+                 'requires': requires, 'produces': produces }
+    pass
+
+
+class KSsolveSet_MultiSource:
+    """A set of KS solves that have a common momentum twist, BC and precision with multisources."""
+    _Template = """
+    #== ${_classType} ==
+    set_type multisource
+    max_cg_iterations ${maxCG.iters}
+    max_cg_restarts ${maxCG.restarts}
+    check ${check}
+    momentum_twist #echo ' '.join(map(str,$twist))#
+    precision ${precision}
+    mass ${mass}
+    #if $naik is not None
+    naik_term_epsilon ${naik}
+    #end if
+    """
+    def __init__(self,twist,bc,check,maxCG,precision,mass,naik):
+        self._classType = self.__class__.__name__
+        self._objectID = self._classType+'_'+base36(id(self))
+        self.twist = twist
+        self.bc = bc
+        self.check = check
+        self.maxCG = maxCG
+        self.precision = precision
+        self.mass = mass
+        self.naik = naik
+        self.propagator = list()
+        self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
+        return
+    # container behavior
+    def __len__(self):
+        return len(self.propagator)
+    def __iter__(self):
+        return self.propagator.__iter__()
+    def __add__(self,other):
+        return [ x for x in self.propagator+other.propagator ]
+    def addPropagator(self,prop):
+        """Add a KSsolveElement_MultiSource object to the set of solves."""
+        prop.parent = self
+        prop.type = 'propagator'
+        self.propagator.append(prop)
+        return prop
+    def generate(self,ostream):
+        print>>ostream, self._template
+        print>>ostream, 'number_of_propagators', len(self.propagator)
+        for p in self.propagator:
+            p.generate(ostream)
+            pass
+        return
+    def dataflow(self):
+        df = list()
+        wname = self._objectID
+        depends = list()
+        requires = list()
+        produces = list()
+        df.append( { 'name': wname, 'depends': depends,
+                     'requires': requires, 'produces': produces } )
+        for p in self.propagator:
+            df.append(p.dataflow())
+            pass
+        return df
+    pass
+
+class KSsolveElement_MultiSource:
+    """Specification of a single KS solve in a KSsolveSet_MultiSource."""
+    _Template = """
+    #== propagator ${id}: ${_classType} ==
+    source ${source.id}
+    error_for_propagator ${residual.L2}
+    rel_error_for_propagator ${residual.R2}
+    #echo ' '.join($load)#
+    #echo ' '.join($save)#
+    """
+    def __init__(self,source,load,save,residual):
+        self._classType = self.__class__.__name__
+        self._objectID = self._classType+'_'+base36(id(self))
+        self.id = None
+        self.parent = None # the KSsolveSet_MultiSource
+        self.source = source
         self.load = load
         self.save = save
         self.residual = residual

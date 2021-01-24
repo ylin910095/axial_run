@@ -25,7 +25,7 @@ projdir: /sdcc/u/ylin/axial/input_dir/axial_run # the directory of the scripts
 # $datadir/corr for correlator, $datadir/prop for propagators, and so on
 # if not directory not present, it will be created
 datadir: /hpcgpfs01/work/lqcd/axial/yin/data/a012_physical # data saving directory
-pythonpromt: pmt_2pt_strange.py # searched under projdir
+pythonprompt: pmt_2pt_strange.py # searched under projdir/pmt
 rundb: rundb_a012_physical.sqlite # running database for all gauge configs, searched under projdir
 milcbin: ks_spectrum_hisq_gb_baryon_blind_no_sink_links_newblind # searched under projdir
 

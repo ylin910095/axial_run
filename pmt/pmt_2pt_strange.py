@@ -3,7 +3,7 @@ import numpy as np
 import os.path
 import random
 import string
-import math, copy
+import math
 from MILCprompts.MILCprompts import *
 from MILCprompts.calcNaikEps import *
 from MILCprompts.nameFormat import *
@@ -31,11 +31,11 @@ if len(sys.argv) != 1 and len(sys.argv) != 6:
   sys.exit()
 elif len(sys.argv) == 1:
   print("Testing")
-  gaugefile = "/projects/AxialChargeStag/hisq/l6496f211b630m0012m0363m432/gauge/l6496f211b630m0012m0363m432p-Coul.780.ildg"
+  gaugefile = "/projects/AxialChargeStag/hisq/l6496f211b630m0012m0363m432/gauge/l6496f211b630m0012m0363m432p-Coul.315.ildg"
   jobid = '88888'
   projDir='/this_is_test_proj_Dir'
   lqcdDir=projDir
-  outprop = '/test/prop'
+  outprop = '/test'
   outprop_temp = '/hpcgpfs01/work/lqcd/axial/yin/data/prod015_dispersion/prop'
   outsrc = '/test/src'
 else:
@@ -86,23 +86,51 @@ generateMissing = True
 ## -- if reloading a cw source, do the 2-point baryon/meson tie-ups again
 generateNewCorr = True
 
-## -- approximately randomize over tstart, want something reproduceable
-series = 0
-def prn_timeslice(traj,series,dim):
-  return hash(hash(str(traj)+str(series)+"x")) % dim
+# Flip the sink corner to the opposite end
+# This is necessary for some non-zero momentum currents (g4z, g5 and so on)
+# This will only flip the sink for 3pt functions at non-zero momentum
+flip_sink = False
+
+# Flag for multiRHS. This option only works properly if GRID is compiled
+# with MILC that has multisrc flag enabled
+multisource = True
+
+# Randomize source points
+def make_random_tstart(time_size, trajectory):
+  ## -- approximately randomize over tstart, want something reproduceable
+  series = 0
+  def prn_timeslice(traj,series,dim):
+    return hash(hash(str(traj)+str(series)+"x")) % dim
+  ## -- prn sometimes gets stuck in infinite loop
+  ##    altering with rnchg gets out of loop
+  ##    constructed in a way to prevent breaking those that did work after few iters
+  rniter = 0
+  rnchg = ''
+  tstart = -1
+  while (tstart % 2 == 1):
+    tstart = prn_timeslice(str(int(trajectory)+max(tstart,0))+rnchg,series,time_size)
+    rniter += 1
+    if rniter % 10 == 9:
+      rnchg = rnchg + str(tstart)
+  return int(tstart)
+def make_random_spatial_coor(t0, trajectory, spatial_size):
+  def _iter_hash(inp):
+    return str(hash(str(inp)))
+  def _make_even(num):
+    if num%2 == 0: return num
+    else: return(num+1)
+  r = []
+  for ic in range(3):
+    ik = 0
+    hashstr = str(t0) + "_random_" + str(trajectory) + "imrandomstring"
+    while ik < ic+1:
+      hashstr = _iter_hash(hashstr+ "imanotherrandomstring") 
+      ik += 1
+    r.append(_make_even(int(hashstr))%spatial_size)
+  return r
 s_size=int(dim[0])
 t_size=int(dim[3])
-## -- prn sometimes gets stuck in infinite loop
-##    altering with rnchg gets out of loop
-##    constructed in a way to prevent breaking those that did work after few iters
-rniter = 0
-rnchg = ''
-tstart = -1
-while (tstart % 2 == 1):
-  tstart = prn_timeslice(str(int(trajc)+max(tstart,0))+rnchg,series,t_size)
-  rniter += 1
-  if rniter % 10 == 9:
-    rnchg = rnchg + str(tstart)
+tstart = make_random_tstart(t_size, trajc)
 
 ## stupid fn to randomize cube index over tsrc,tins,trajectory,series and solve number
 ## make sure subsequent solves always give different cube indices
@@ -126,11 +154,9 @@ def prn_cube(tsrc,tins,traj,series,num):
     rval = t.pop(int(x[c]))
   return rval
 timeBC = "antiperiodic"
-# srcTimeslices done so far: 0, 16, 32, 48
-# todo: 8, 24, 40, 56
 
-num_sets = 4
-srcTimeslices = tuple([0]*3) 
+num_sets = 1
+srcTimeslices = tuple([0]*100) # point, gauss smear, xport, and cornerwall
 srcTypeList = tuple(["point", "xport", "gauss"]*num_sets)
 srcBaseList = tuple([None, 0, 1]*num_sets)
 srcDoLoad = tuple([False, False, False]*num_sets) 
@@ -139,18 +165,19 @@ srcSolve = (False, False, True) # do we want to solve this set of propagators? I
                          # useful we only want to use it as base source to have modified 
                          # sources but we do not want to solve for the base sources.
 
+# Decide whether to put random coordinate labels in the correlator names
+ptsrc_label = False
 
 ## TODO: make sure doMomenta updated to doSrcMomenta
 doSrcMomenta = False
 srcGenMomenta = ((0,0,0),(0,0,0),(0,0,0),(0,0,0)) # momentum on source inversions
-srcTagMomenta = ('00','00','00',) # tag for momentum on source
-srcZeroMomenta = (0,0,0,) # index of base source to use
+srcTagMomenta = ('00','00','00','00') # tag for momentum on source
+srcZeroMomenta = (0,0,0,0) # index of base source to use
 
-# Smearing controls specify here!
+# Smearing controls
 gparam_list = []
-r0_list = [4.0,]
+r0_list = [3.0,]
 iter_list = [50,]
-
 for i in range(len(r0_list)):
     tmp_gparam = {
                   'type': 'gaussian',
@@ -171,7 +198,7 @@ for i in range(len(gparam_list)):
         raise
     (gparam_list[i])['tag'] = "%sr%.1fN%s" %(pfsmear, paramdict['r0'], paramdict['iters'])
 
-srcSmearingParam = (None, gparam_list[0], gparam_list[0], None)
+srcSmearingParam = (None, None, gparam_list[0], None)
 srcLabelOverride = (None, None, gparam_list[0]['tag'], None)
 
 ## Quark controls
@@ -185,6 +212,7 @@ quarkSinkTypeList = ("point", "point")
 ## parameters to make insertions with
 insTimeSep = (3,4,5,6,7)
 insCurrent = ((0,0),(11,11),)  
+#insMomenta = ((0,0,0),(0,0,1))
 insMomenta = ((0,0,0),) # sequential momentum inversions
 insTagMomenta = ('00','00') # tag for momentum
 
@@ -197,10 +225,11 @@ insTagMomenta = ('00','00') # tag for momentum
 # 5. Check consistency between all entries above
 # 6. Check python pmt output
 # 7. SUBMIT!
-## 4-tuples of (quark,tsrc,timesep,current,momenta) indices
+## 5-tuples of (quark,tsrc,timesep,current,momenta) indices
 # quark has to be identity!
 #insSpec = ((0,0,1,1), (0,1,1,1), (0,2,1,1),(0,3,1,1)) #set1 done PROJECT IT
-#insSpec = ((0,0,0,1,1),(0,0,1,1,1),(0,0,2,1,1),(0,0,3,1,1),(0,0,4,1,1))
+insSpec = ((0,0,0,1,1),(0,0,1,1,1),(0,0,2,1,1),(0,0,3,1,1),(0,0,4,1,1))
+insSpec = ((0,0,1,1,1),)
 insSpec = ()
 insSrcDoSave = tuple(False for x in insSpec) # whetever to save extend quark at sink
 
@@ -215,6 +244,7 @@ insProjectIndex = tuple(cornerIter for x in insSrcIndex)
 
 ## Threept tieup quark list -- need to come from the same propagators
 seqTieList = [(1,), (1,), (1,), (1,), (1,)]  
+seqTieList = [(1,)]
 seqTieList = []
 if len(seqTieList) != len(insSpec):
     raise ValueError("Need to specify tieup for all sequential solves!")
@@ -223,6 +253,7 @@ if len(seqTieList) != len(insSpec):
 currTieScalar = ((0, 0), )
 currTieAz = ((11,11),)
 currTieV4 = ((8, 8),)
+currTieG5TG5T = ((7,7),)
 currTieV4VX4 = ((8, 9),)
 currTieG5XG5 = ((14, 15),)
 currTieAx = ((14,14),)
@@ -230,14 +261,13 @@ currTieG5XGXT = ((14, 9),)
 currTieG5XG5 = ((14,15),)
 currTieGTG5 = ((8, 15),)
 currTieG5XG5Y = ((14, 13), )
-currTieG45G45 = ((7, 7), )
 currTieG4G5X = ((8, 14),)
 currTieAll = ((7,7),(14,14),(13,13),(11,11),(8,8),(1,1),(2,2),(4,4))
 #currTie = (currTieAll,currTieAll,currTieAz,currTieAz)
 #currTie = (currTieV4, currTieV4)
 #currTie = (currTieAll,currTieAz)
 #currTie = [currTieAz]*len(insSpec)
-currTie = currTieAz
+currTie = currTieG5TG5T
 do2pt = True
 doMeson2pt = False
 doCWMeson2pt = True
@@ -302,11 +332,6 @@ fatLink = { 'weight': 0, 'iter': 0 }
 Uorigin = [0,0,0,0]
 spect.newGauge(Gauge(uLoad,u0,gFix,uSave,fatLink,Uorigin,timeBC))
 
-
-# Convergence
-L2 = 1e-9
-R2 = 0
-
 ## to reuse same configuration -> save memory for orthogonal runs!
 #spect.newGauge(Gauge(('continue',),u0,gFix,uSave,fatLink,Uorigin))
 ## turn on 3-point functionality!
@@ -343,14 +368,8 @@ for i,(tsrc,srctype,srcbase,idx,mom,tag,srclabel) in enumerate(zip(
     vecdisp = [[0,0,0],[1,0,0],[0,1,0],[1,1,0],
                 [0,0,1],[1,0,1],[0,1,1],[1,1,1]]
 
-    def _make_even(num):
-        if num%2 == 0: return num
-        else: return(num+1)
-
-    np.random.seed(42)
-    #space_origin = [_make_even((int(torigin*s_size/t_size) + np.random.choice(range(s_size)))%s_size)
-    #                for dummyi in range(3)]
-    space_origin = [(_make_even((int(torigin*s_size/t_size))))%s_size]*3
+    space_origin = make_random_spatial_coor(torigin, trajc, s_size)
+    ptsrc_label = True
     ptdisp = [list(np.array(space_origin)+np.array(ivdisp))+[torigin] for ivdisp in vecdisp]
     for iptcorner in range(8):
         label = "pt%s"%vecStr[0]
@@ -378,20 +397,18 @@ for i,(tsrc,srctype,srcbase,idx,mom,tag,srclabel) in enumerate(zip(
                         if imk != 0]
         #save = ("save_serial_scidac_ks_source", outsrc+"/%s.txt"%("_".join(dir_str_list))) 
         save = ("forget_source",)
-        try:
-          xport_list.append(ParallelTransportModSource(startSource=srcPSoct[srcbase].modifd[0],
+        try: # if the previous source is a modified source
+            xport_list.append(ParallelTransportModSource(startSource=srcPSoct[srcbase].modifd[0],
                                     disp=int(np.sum(vecdisp[iptcorner])),
                                     dir=dir_str_list,
                                     label=label,
                                     save=save))
-        except:
-          xport_list.append(ParallelTransportModSource(startSource=srcPSoct[srcbase],
+        except: # if the previous source ia a base source
+            xport_list.append(ParallelTransportModSource(startSource=srcPSoct[srcbase],
                                     disp=int(np.sum(vecdisp[iptcorner])),
                                     dir=dir_str_list,
                                     label=label,
                                     save=save))
-
-
     srcPSoct.append(BaseSource8Container(src=xport_list, label="Notused"))
     srcPSoct[-1].addSourcesToSpectrum(spect, baseSrc=False)
     spect.addSourceOctet(srcPSoct[-1])
@@ -400,22 +417,11 @@ for i,(tsrc,srctype,srcbase,idx,mom,tag,srclabel) in enumerate(zip(
       if srclabel is not None:
         label = srclabel
       save = ("forget_source", )
-      global_call = 0
       def smearFunc(src8,label,save):
-          global global_call
-          if global_call != 0: # dont need to do the same source smearing again
-              srcSmearingParam_trivial = copy.copy(srcSmearingParam[i])
-              srcSmearingParam_trivial['iters'] = 1 # only smear source once!
           if (srcSmearingParam[i])["type"]  == "gaussian":
-              if global_call == 0:
-                  global_call += 1
-                  return FatCovariantGaussian(srcSmearingParam[i], label, save, src8)
-              else:
-                  global_call += 1
-                  return FatCovariantGaussian(srcSmearingParam[i], label, save, src8)
-                  #return FatCovariantGaussian(srcSmearingParam_trivial, 'nan', save, src8)
+              return FatCovariantGaussian(srcSmearingParam[i], label, save, src8)
           if (srcSmearingParam[i])["type"] == "laplacian":
-               return FatCovariantLaplacian((srcSmearingParam[i])["stride"], label, save, src8)
+              return FatCovariantLaplacian((srcSmearingParam[i])["stride"], label, save, src8)
       srcPSoct.append(GeneralSource8Modification(srcPSoct[srcbase],smearFunc,label,save))
       srcPSoct[-1].addSourcesToSpectrum(spect)
       spect.addSourceOctet(srcPSoct[-1])
@@ -430,7 +436,7 @@ solvePrecision = 2
 masses = [ tmass[1] ] ## always physical
 naik = list(calcNaikEps(np.array(masses)*lattA))
 naik = (0,0)
-residuals = { 'L2': L2, 'R2': R2}
+residuals = { 'L2': 1e-12, 'R2': 0}
 
 ## corner wall solves
 invPSoct = list()
@@ -461,18 +467,26 @@ for tsrc,src,doLoad,doSave, doSolve, tag in zip(
         srcTimeslices,srcPSoct,srcDoLoad,srcDoSave,srcSolve,srcTagMomenta):
     if not doSolve:
         continue
+
     if doLoad:
         check = 'yes'
         load = ('reload_parallel_ksprop',cwmomsave(tsrc,tag,True)[1])
+        cgparamtemp = CGparamLoad
+    else:
+        check = 'yes'
+        load = ('fresh_ksprop',)
+        cgparamtemp = CGparam
+
+    if not multisource:
         invPSoct.append(KSsolveSet8Container(
           src,momTwist,timeBC,check,CGparamLoad,solvePrecision,
           masses,naik,load,cwmomsave(tsrc,tag,doSave),residuals))
     else:
-        check = 'yes'
-        load = ('fresh_ksprop',)
-        invPSoct.append(KSsolveSet8Container(
-          src,momTwist,timeBC,check,CGparam,solvePrecision,
-          masses,naik,load,cwmomsave(tsrc,tag,doSave),residuals))
+        ss = KSsolveSetNContainer_MultiSource(momTwist,timeBC,check,cgparamtemp,solvePrecision,
+                                              masses,naik,residuals)
+        ss.appendSolveSet(src,load,cwmomsave(tsrc,tag,doSave))
+        invPSoct.append(ss)
+
     ## -- safeguard against missing
     if generateMissing and doLoad:
         for ss in invPSoct[-1].solveset:
@@ -499,8 +513,12 @@ for (baseProp, quarkType, quarkSmear, quarkLabel) in zip(
     save = ('forget_ksprop',)
     if quarkLabel is not None:
       label = quarkLabel
+    if multisource:
+        multisrc_indx = 0
+    else:
+        multisrc_indx = None      
     qkPSlst.append(QuarkIdentitySink8Container(
-                   inv,0,label,save))
+                   inv,0,label,save,multisource=multisource,multisrc_prop_idx=multisrc_indx))
     qkPSlst[-1].addQuarksToSpectrum(spect)
     qkPSoct.append(KSQuarkOctet(qkPSlst[-1]))
     spect.addQuarkOctet(qkPSoct[-1])
@@ -514,7 +532,12 @@ for (baseProp, quarkType, quarkSmear, quarkLabel) in zip(
             return FatCovariantGaussianSink(prop8, quarkSmear, label, save)
         if (quarkSmear)["type"] == "laplacian":
             return FatCovariantLaplacianSink(prop8, 2, label, save)
-    qkPSSmearlst.append(QuarkModificationSink8Container(inv,snkGSmear,0,label,save))
+    if multisource:
+        multisrc_indx = 0
+    else:
+        multisrc_indx = None
+    qkPSSmearlst.append(QuarkModificationSink8Container(inv,snkGSmear,0,label,save,
+                        multisource=multisource,multisrc_prop_idx=multisrc_indx))
     qkPSSmearlst[-1].addQuarksToSpectrum(spect)
     qkPSoct.append(KSQuarkOctet(qkPSSmearlst[-1]))
     spect.addQuarkOctet(qkPSoct[-1])
@@ -593,6 +616,86 @@ qkSeqLst = list() ## list of quark8 objects
 qkSeqSolveLst = list() ## list of extended quarks after sink solves
 qkSeqSolSmearLst = list()
 
+for ic,(spec,doSave)\
+    in enumerate(zip(insSpec,insSrcDoSave)):
+  qk8 = qkPSlst[spec[0]] ## assumes they are in order!
+  if quarkTypeList[spec[0]] != "identity":
+      raise ValueError("Sequential solve must come from identity quark tyep!")
+  mass = qk8.mass
+  naik_eps = naik[0]
+  tsrc = srcTimeslices[spec[1]]
+  ti = insTimeSep[spec[2]]
+  op = insCurrent[spec[3]]
+  opgam = gen_label(op[0],op[1])
+  optag = gen_hex(op[0],op[1])
+  mom = insMomenta[spec[4]]
+  
+  # momentum conservation
+  mom = list(mom)
+  for im in range(len(mom)):
+      mom[im] = -mom[im] 
+
+  tins = ((tstart+tsrc+ti)%t_size)
+  subset = 'full' ## don't project! do that when loading
+  cubeCorner = 8
+  seqlabel = optag+'q'+''.join(str(x) for x in mom)+'t'+str(ti).zfill(3)+'c$i'
+  save = ('forget_ksprop',)
+  ## create the source objects
+  if doSave:
+   save = cwseqsave(tsrc,mom,mass,doSave,op,mom,tins,cubeCorner)
+  qkSeqLst.append(KSExtSrcSink8Container(qk8,opgam,mom,tins,subset,seqlabel,save))
+  qkSeqLst[-1].addQuarksToSpectrum(spect)
+
+  # After applying appropriate sink spintaste, solve it 
+  label = "cw0" # if used directly, it must be using as corner wall sink
+  twist = (0,0,0)
+  save = ('forget_ksprop', )
+  qkSeqSolveLst.append(KSInverseSink8Container(qkSeqLst[-1],mass,naik_eps,u0,CGparam,
+                                               residuals,solvePrecision,Uorigin,twist,timeBC,label,save))
+  qkSeqSolveLst[-1].addQuarksToSpectrum(spect)
+  qkSeqOct.append(KSQuarkOctet(qkSeqSolveLst[-1])) # already identity
+  spect.addQuarkOctet(qkSeqOct[-1])
+
+
+  seqTie = seqTieList[ic]
+  for seqTieIndex in seqTie:
+      if basePropList[seqTieIndex] != basePropList[spec[0]]:
+          raise ValueError("3pt tie up need to come from the same propagators")
+      quarkType = quarkTypeList[seqTieIndex]
+      quarkLabel = quarkLabelOverride[seqTieIndex]
+      quarkSmear = quarkSmearParam[seqTieIndex]
+
+      if quarkType == "identity":
+        qkIntOct.append(qkSeqOct[-1]) # already identity
+
+      elif quarkType == "gauss":
+        label = quarkSmear['tag']
+        if quarkLabel is not None:
+          label = quarkLabel
+        save = ('forget_ksprop',)
+        def snkGSmear(prop8, label,  save):
+            if (quarkSmear)["type"] == "gaussian":
+                return FatCovariantGaussianSink(prop8, quarkSmear, label, save)
+        tmpquark = list()
+        for icorn in range(8): # 8 corners
+            tmpquark.append(snkGSmear((qkSeqSolveLst[-1]).quark[icorn],
+                              label, ("forget_ksprop",)))
+        qkSeqSolSmearLst.append(tmpquark)
+
+        # Keep them after all spin-taste are done
+        iqkS = qkSeqSolSmearLst[-1]
+        tmpquark = list()
+        for ic in range(8):
+            spect.addQuark(iqkS[ic])
+        # dummy class HACK. So hacky i dont even know what to say
+        class dummyclass:
+            def __init__(self, qk8):
+                self.quark = qk8
+                return
+        qkSeqLst.append(dummyclass(iqkS))
+        qkIntOct.append(KSQuarkOctet(qkSeqLst[-1]))
+        spect.addQuarkOctet(qkIntOct[-1])
+
 ## CORNER WALLS - second time through
 
 ## do not spect.generate() between first and second
@@ -604,18 +707,6 @@ subset = 'full'
 scaleFactor = None
 save = ('forget_source',)
 srcPSoct = list()
-## inversion parameters
-momTwist = (0,0,0)
-timeBC = 'antiperiodic'
-#CGparam = { 'restarts': 5, 'iters': 500 }
-#CGparam = { 'restarts': 15, 'iters': 1000 } ## l3248
-CGparam = { 'restarts': 50, 'iters': 5000 } ## l4864 ## TODO: have gconf dependent solution?
-CGparamLoad = CGparam ## -- shouldn't matter, safe option
-solvePrecision = 2
-masses = [ tmass[1] ] ## always physical
-naik = list(calcNaikEps(np.array(masses)*lattA))
-naik = (0,0)
-residuals = { 'L2': L2, 'R2': R2}
 
 ## --
 ## -- MESONS
@@ -731,7 +822,7 @@ def gbBaryon2ptCorrelatorList(cnt,sym,gts,cls,phase,op,norm):
   for xcnt in [xcnt for xcnt in cntList[nstr] if xcnt in cnt]:
    #- intersections of inclusive list and input list
    for xsym in [xsym for xsym in symList[nstr] if xsym in sym]:
-    for xgts in [xgts for xgts in ["8","8'","16+","16-"] if xgts in gts]:
+    for xgts in [xgts for xgts in ["16+","16-"] if xgts in gts]:
      for csrc in [csrc for csrc in clsList[xsym,xgts] if csrc in cls]:
       for csnk in [csnk for csnk in clsList[xsym,xgts] if csnk in cls]:
        #if csrc > csnk:
@@ -787,6 +878,37 @@ def make_gb3cor(sink_type):
          gb2corBoth.append(GBBaryon2pt(barLabel,(phase,op,factor),cgts,sym,ccls,kgts,sym,kcls,sink_type,'corner'))
     return gb2corBoth
 
+def make_gb3cor_nonzero(sink_type):
+    gb2corBoth = list()
+    cclsCut = [1,2,3,41,42,5,61,62,7] # all
+    kclsCut = [1,2,3,41,42,5,61,62,7] # all
+
+    #cclsCut = [5,]
+    #kclsCut = [5,]
+    #gtsCut = ["8","8'","16+","16-"]
+    gtsCut = ["16+","16-"]
+    gtsCut = ["16+", "8", "16-","8'"]
+    allowed_sets = [set(["16+", "8"]), set (["16-", "8'"])]
+    ## -- symmetric
+    ## cube construction
+    #for sym in ["S","M1/2"]:
+    for sym in ["S"]:
+     if flip_sink:
+      snk_sym = sym+"*"
+     else:
+      snk_sym = sym
+     for cgts in gtsCut:
+      #kgts = cgts # same source/sink gts (not required)
+      for kgts in gtsCut:
+       if (kgts != cgts) and set([kgts, cgts]) not in allowed_sets:
+         continue
+       for ccls in [xcls for xcls in clsList[sym,cgts] if xcls in cclsCut]:
+        for kcls in [xcls for xcls in clsList[sym,kgts] if xcls in kclsCut]:
+         barLabel = nam +"_b_"+ gtsCode[cgts] +"_"+ symCode[sym] +"_"+ \
+           str(ccls) +"_"+ gtsCode[kgts] +"_"+ symCode[sym] +"_"+ str(kcls)
+         gb2corBoth.append(GBBaryon2pt(barLabel,(phase,op,factor),cgts,sym,ccls,kgts,snk_sym,kcls,sink_type,'corner'))
+    return gb2corBoth
+
 def make_gb2cor(sink_type):
   gb2cor = list()
   phase = 1
@@ -800,25 +922,58 @@ def make_gb2cor(sink_type):
 
   #cclsCut = [5,]
   #kclsCut = [5,]
-  #gtsCut = ["8","8'","16+","16-"]
-  #gtsCut = ["8","16+","16-"]
   gtsCut = ["8'"]
+  #gtsCut = ["16-","16+"]
   ## -- symmetric
   ## cube construction
   for sym in ["S","M1/2"]:
-  #for sym in ["S"]:
    for cgts in gtsCut:
     #kgts = cgts # same source/sink gts (not required)
     for kgts in gtsCut:
      #if (kgts != cgts) and (not(cgts in ["16+","16-"]) or not(kgts in ["16+","16-"])):
      # continue
-     if (kgts != cgts): continue
+     #if (kgts != cgts): continue
      for ccls in [xcls for xcls in clsList[sym,cgts] if xcls in cclsCut]:
       for kcls in [xcls for xcls in clsList[sym,kgts] if xcls in kclsCut]:
        barLabel = nam +"_b_"+ gtsCode[cgts] +"_"+ symCode[sym] +"_"+ \
          str(ccls) +"_"+ gtsCode[kgts] +"_"+ symCode[sym] +"_"+ str(kcls)
        if cgts == kgts:
         gb2cor.append(GBBaryon2pt(barLabel,(phase,op,factor),cgts,sym,ccls,kgts,sym,kcls,sink_type,'corner'))
+       gb2corBoth.append(GBBaryon2pt(barLabel,(phase,op,factor),cgts,sym,ccls,kgts,sym,kcls,sink_type,'corner'))
+  return gb2cor
+
+def make_gb2cor_nonzero(sink_type):
+  gb2cor = list()
+  phase = 1
+  op = '*'
+  factor = 1.
+  cnt = 'uud'
+  nam = 'nd'
+
+  cclsCut = [1,2,3,41,42,5,61,62,7] # all
+  kclsCut = [1,2,3,41,42,5,61,62,7] # all
+
+  #cclsCut = [5,]
+  #kclsCut = [5,]
+  #gtsCut = ["8","8'","16+","16-"]
+  gtsCut = ["16+", "8", "16-","8'"]
+  allowed_sets = [set(["16+", "8"]), set (["16-", "8'"])]
+  ## -- symmetric
+  ## cube construction
+  #for sym in ["S","M1/2"]:
+  for sym in ["S"]:
+   for cgts in gtsCut:
+    #kgts = cgts # same source/sink gts (not required)
+    for kgts in gtsCut:
+     if (kgts != cgts) and set([kgts, cgts]) not in allowed_sets:
+      continue
+     #if (kgts != cgts): continue
+     for ccls in [xcls for xcls in clsList[sym,cgts] if xcls in cclsCut]:
+      for kcls in [xcls for xcls in clsList[sym,kgts] if xcls in kclsCut]:
+       barLabel = nam +"_b_"+ gtsCode[cgts] +"_"+ symCode[sym] +"_"+ \
+         str(ccls) +"_"+ gtsCode[kgts] +"_"+ symCode[sym] +"_"+ str(kcls)
+       #if cgts == kgts:
+       gb2cor.append(GBBaryon2pt(barLabel,(phase,op,factor),cgts,sym,ccls,kgts,sym,kcls,sink_type,'corner'))
        gb2corBoth.append(GBBaryon2pt(barLabel,(phase,op,factor),cgts,sym,ccls,kgts,sym,kcls,sink_type,'corner'))
   return gb2cor
 
@@ -835,19 +990,49 @@ def make_gb2cor(sink_type):
 #    gb2corBoth.append(GBBaryon2pt(barLabel,(phase,op,factor),cgts,sym,ccls,kgts,sym,kcls,'corner'))
 
 def baryonSpecFile(t,key):
-  return ('save_corr_fnal',specFile2ptBaryonPrefix() + specFileMidfix()
-    +'_t'+str(t).zfill(3)+"_"+key+"_"+ specFilePostfix())
+  if isinstance(t, list) == False:
+    return ('save_corr_fnal',specFile2ptBaryonPrefix() + specFileMidfix()
+      +'_t'+str(t).zfill(3)+"_"+key+"_"+ specFilePostfix())
+  else:
+    if len(t) != 4: # x, y, z, t coordinate
+      raise ValueError("Unknow input")
+    coors = ""
+    coor_prefix = ["x","y","z","t"]
+    for ic, ist in enumerate(t):
+      coors += "_%s%s"%(coor_prefix[ic], str(ist).zfill(3))
+    return ('save_corr_fnal',specFile2ptBaryonPrefix() + specFileMidfix()
+      + coors +"_"+key+"_"+ specFilePostfix())
 def baryonSpecFileMom(t,key,tag):
-  return ('save_corr_fnal',specFile2ptBaryonPrefix() + specFileMidfix()
-    +'_t'+str(t).zfill(2)+"_"+key+"_p"+tag+"_"+ specFilePostfix())
+  if isinstance(t, list) == False:
+    return ('save_corr_fnal',specFile2ptBaryonPrefix() + specFileMidfix()
+      +'_t'+str(t).zfill(3)+"_"+key+"_p"+tag+"_"+ specFilePostfix())
+  else:
+    if len(t) != 4: # x, y, z, t coordinate
+      raise ValueError("Unknow input")
+    coors = ""
+    coor_prefix = ["x","y","z","t"]
+    for ic, ist in enumerate(t):
+      coors += "_%s%s"%(coor_prefix[ic], str(ist).zfill(3))
+    return ('save_corr_fnal',specFile2ptBaryonPrefix() + specFileMidfix()
+      + coors +"_"+key+"_p"+tag+"_"+ specFilePostfix())
 def baryonSeqSpecFile(t,ti,momi,momk,cur,corner):
   momstr = '_p'+''.join(str(x) for x in momk)
   extstr = '_x'+gen_hex(cur[0],cur[1])
   extstr = extstr +'_q'+''.join(str(x) for x in momi)
   extstr = extstr +'_i'+str(ti).zfill(3)
   extstr = extstr +'_b'+str(corner)
-  return ('save_corr_fnal',specFile3ptBaryonPrefix() + specFileMidfix()
-    +'_t'+str(t).zfill(3) +momstr+extstr +"_"+ specFilePostfix())
+  if isinstance(t, list) == False:
+    return ('save_corr_fnal',specFile3ptBaryonPrefix() + specFileMidfix()
+      +'_t'+str(t).zfill(3) +momstr+extstr +"_"+ specFilePostfix())
+  else:
+    if len(t) != 4: # x, y, z, t coordinate
+      raise ValueError("Unknow input")
+    coors = ""
+    coor_prefix = ["x","y","z","t"]
+    for ic, ist in enumerate(t):
+      coors += "_%s%s"%(coor_prefix[ic], str(ist).zfill(3))
+    return ('save_corr_fnal',specFile3ptBaryonPrefix() + specFileMidfix()
+      + coors +momstr+extstr +"_"+ specFilePostfix())
 
 if True:
   if doSrcMomenta:
@@ -866,19 +1051,87 @@ if True:
     #for tsrc,doLoad,qkOct in zip(srcTimeslices,srcDoLoad,qkPSoct):
     for (qkOct, sinkType) in zip(qkPSoct, quarkSinkTypeList):
       tsrc = srcTimeslices[0] # hack for multiple sink smearings
+      torigin = (tstart+tsrc)%t_size
       doLoad = srcDoLoad[0] # hack for multiple sink smearings
+
+      # Determine if we use point src
+      if ptsrc_label:
+        space_origin = make_random_spatial_coor(torigin, trajc, s_size)
+        rx = space_origin[0]
+        ry = space_origin[1]
+        rz = space_origin[2]
+        tsinp = space_origin + [torigin]
+      else:
+        tsinp = torigin
+
       for sinktiemom in insMomenta:
           if sinktiemom == (0,0,0):
               if not(doLoad) or generateNewCorr:
                 spect.addGBBaryon(GBBaryonSpectrum(
-                  qkOct,qkOct,qkOct,(0,0,0,(tstart+tsrc)%t_size),make_gb2cor(sinkType),'uud',
-                  baryonSpecFile((tstart+tsrc)%t_size,'ptsrc'),(0,0,0),('EO','EO','EO')))
+                  qkOct,qkOct,qkOct,(rx,ry,rz,(tstart+tsrc)%t_size),make_gb2cor(sinkType),'uud',
+                  baryonSpecFile(tsinp,'ptsrc'),(0,0,0),('EO','EO','EO')))
           else:
                 tag = '%s%s%s'%(sinktiemom[0],sinktiemom[1],sinktiemom[2])
                 spect.addGBBaryon(GBBaryonSpectrum(
-                  qkOct,qkOct,qkOct,(0,0,0,(tstart+tsrc)%t_size),make_gb2cor(sinkType),'uud',
-                  baryonSpecFileMom((tstart+tsrc)%t_size,'ptsrc',tag),sinktiemom,('EO','EO','EO')))
+                  qkOct,qkOct,qkOct,(rx,ry,rz,(tstart+tsrc)%t_size),make_gb2cor_nonzero(sinkType),'uud',
+                  baryonSpecFileMom(tsinp,'ptsrc',tag),sinktiemom,('EO','EO','EO')))
           
+
+#if do2pt:
+#for j,(quart,qkInt,doCubeProject,cube,curtie)\
+#in enumerate(zip(insSpec,qkSeqOct,insDoProject,insProjectIndex,currTie)):
+
+for m, spec in enumerate(insSpec):
+     qkInt = qkIntOct[m]
+     seqTie = seqTieList[m]
+     for ic, seqTieIndex in enumerate(seqTie):
+        doCubeProject = False
+        cube = True
+        curtie = currTie[0]
+        qkInt = qkIntOct[ic+m*len(seqTie)]
+        qkSpec = qkPSoct[seqTieIndex]
+        sinkType = quarkSinkTypeList[seqTieIndex]
+        tsrc = srcTimeslices[spec[1]]
+        doLoad = srcDoLoad[0]
+        #if len(srcTimeslices) > 1:
+        #    raise ValueError
+        ti = insTimeSep[spec[2]]
+
+        tsrc = srcTimeslices[0] # hack for multiple sink smearings
+        torigin = (tstart+tsrc)%t_size
+        doLoad = srcDoLoad[0] # hack for multiple sink smearings
+        # Determine if we use point src
+        if ptsrc_label:
+          space_origin = make_random_spatial_coor(torigin, trajc, s_size)
+          rx = space_origin[0]
+          ry = space_origin[1]
+          rz = space_origin[2]
+          tsinp = space_origin + [torigin]
+        else:
+          tsinp = torigin
+
+        if doCubeProject:
+          cubeIdx = prn_cube(tsrc,ti,trajc,series,cube)
+        else:
+          subset = 'full'
+          cubeIdx = 8
+          optag = gen_label(curtie[0],curtie[1])
+          momi = tuple(-x for x in insMomenta[spec[4]])
+          momk = tuple(x for x in insMomenta[spec[4]])
+          #tins = ((tstart+tsrc+ti)%t_size)
+          tins = ti ## actually want the separation here!
+          if momk == (0,0,0):
+            spect.addGBBaryon(GBBaryonSpectrum(
+              qkInt,qkSpec,qkSpec,(0,0,0,(tstart+tsrc)%t_size),make_gb3cor(sinkType),'uud',
+              baryonSeqSpecFile(tsinp,tins,momi,momk,curtie,cubeIdx),
+              momk,('EO','EO','EO'),stidx=optag))
+          else:
+            spect.addGBBaryon(GBBaryonSpectrum(
+              qkInt,qkSpec,qkSpec,(0,0,0,(tstart+tsrc)%t_size),make_gb3cor_nonzero(sinkType),'uud',
+              baryonSeqSpecFile(tsinp,tins,momi,momk,curtie,cubeIdx),
+              momk,('EO','EO','EO'),stidx=optag))
+
+
 spect.generate()
 
 #dflFile = wkflName + '-dataflow.yaml'

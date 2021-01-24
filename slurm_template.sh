@@ -19,12 +19,12 @@ export QUDA_RESOURCE_PATH=${QUDA_RESOURCE_PATH}
 projdir=${projdir}
 datadir=${datadir}
 
-run_db=${projdir}/${rundb}
-MILC_bin=${projdir}/${milcbin}
+run_db=${projdir}/run_db/${rundb}
+MILC_bin=${projdir}/bin/${milcbin}
 
 
 MILCoutdir=${datadir}/out
-pythonprompt=${projdir}/${pythonpromt}
+pythonprompt=${projdir}/pmt/${pythonprompt}
 cobaltoutdir=${datadir}/slurmout
 inpdir=${datadir}/inp
 inpoutdir=${datadir}/out
