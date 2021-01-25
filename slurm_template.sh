@@ -24,7 +24,7 @@ MILC_bin=${projdir}/bin/${milcbin}
 
 
 MILCoutdir=${datadir}/out
-pythonprompt=${projdir}/pmt/${pythonprompt}
+pythonpromptdir=${projdir}/pmt/${pythonprompt}
 cobaltoutdir=${datadir}/slurmout
 inpdir=${datadir}/inp
 inpoutdir=${datadir}/out
@@ -63,7 +63,7 @@ do
     # Generate input file
     inputfilename=$(python2 ${projdir}/utils/make_inpfile_name.py $igauge $SLURM_JOB_ID)
     inputfile=${jobscratchdir}/$inputfilename
-    python2 $pythonprompt $igauge $SLURM_JOB_ID $jobscratchdir $propoutdir $srcoutdir > $inputfile
+    python2 $pythonpromptdir $igauge $SLURM_JOB_ID $jobscratchdir $propoutdir $srcoutdir > $inputfile
 
     milcoutname=$(python2 ${projdir}/utils/make_milcout_name.py $igauge $SLURM_JOB_ID)
     milcoutfile=${inpoutdir}/${milcoutname}

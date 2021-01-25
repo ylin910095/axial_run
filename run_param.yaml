@@ -1,33 +1,34 @@
 slurm_header:
-    - "#SBATCH --account=axialgpu-20-21"
-    - "#SBATCH --nodes=8"
-    - "#SBATCH --ntasks-per-node=4"
+    - "#SBATCH --account=class-c-omegamass-20-21"
+    - "#SBATCH --nodes=1"
+    - "#SBATCH --ntasks-per-node=16"
     - "#SBATCH --time=6:00:00"
-    - "#SBATCH --gres=gpu:4"
     - "#SBATCH --partition=long"
-    - "#SBATCH --job-name=g5z"
+    - "#SBATCH --job-name=omega"
     - "#SBATCH --mail-user=99liny@gmail.com"
     - "#SBATCH --mail-type=FAIL,TIME_LIMIT"
     - "#SBATCH --qos=normal"
-    - "#SBATCH --output=/sdcc/u/ylin/lqcd/yin/data/a012_physical/slurmout/g5z_t0_%j.out"
+    - "#SBATCH --output=/hpcgpfs01/work/lqcd/axial/yin/knl_data/omega/slurmout/a015_%j.out"
 module_command: 
     - module purge
-    - module load anaconda2, gcc/8.2.0, openmpi/3.1.1-gnu, cuda/10.1
+    - module load anaconda2/4.2.0
+    - module load intel/PSXE2019
 no_config: 1 # number of configurations running in parallel per job, usually just set it to 1
-mpi_rank_per_node: 4 # make sure it matches slurm_header --nodes
+mpi_rank_per_node: 16 # make sure it matches slurm_header --nodes
 openmp_thread_per_rank: 8 # make sure it matches slurm header --ntasks-per-node
-ensemble: l4864f211b600m001907m05252m6382
+ensemble: l3248f211b580m002426m06730m8447
 QUDA_RESOURCE_PATH: /sdcc/u/ylin/axial/input_dir/a012_physical/tunefolder # tunning file folder for QUDA
+                                                                          # ignored if not using GPU
 
-projdir: /sdcc/u/ylin/axial/input_dir/axial_run # the directory of the scripts
+projdir: /sdcc/u/ylin/axial/input_dir/knl/omega # the directory of the scripts
 
 # Data saving directory: 
 # $datadir/corr for correlator, $datadir/prop for propagators, and so on
 # if not directory not present, it will be created
-datadir: /hpcgpfs01/work/lqcd/axial/yin/data/a012_physical # data saving directory
+datadir: /hpcgpfs01/work/lqcd/axial/yin/knl_data/omega # data saving directory
 pythonprompt: pmt_2pt_strange.py # searched under projdir/pmt
-rundb: rundb_a012_physical.sqlite # running database for all gauge configs, searched under projdir
-milcbin: ks_spectrum_hisq_gb_baryon_blind_no_sink_links_newblind # searched under projdir
+rundb: a015_phy_omega.sqlite # running database for all gauge configs, searched under projdir/run_db
+milcbin: ks_spectrum_hisq_gb_baryon_blind_no_sink_links # searched under projdir
 
 # Scratch directory for intermediate correlator files
 # The script will create a unique scrach folder for each job within this folder
