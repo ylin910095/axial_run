@@ -28,7 +28,7 @@ projdir: /sdcc/u/ylin/axial/input_dir/knl/omega # the directory of the scripts
 datadir: /hpcgpfs01/work/lqcd/axial/yin/knl_data/omega # data saving directory
 pythonprompt: pmt_2pt_strange.py # searched under projdir/pmt
 rundb: a015_phy_omega.sqlite # running database for all gauge configs, searched under projdir/run_db
-milcbin: ks_spectrum_hisq_gb_baryon_blind_no_sink_links # searched under projdir
+milcbin: ks_spectrum_hisq_gb_baryon_blind_no_sink_links # searched under projdir/bin
 
 # Scratch directory for intermediate correlator files
 # The script will create a unique scrach folder for each job within this folder
