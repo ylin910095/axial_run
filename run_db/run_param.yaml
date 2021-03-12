@@ -1,9 +1,9 @@
 l2464f211b600m0102m0509m635:
-    loc: /home/ylin/lustre1/hisq/l2464f211b600m0102m0509m635/gauge
+    loc: /sdcc/u/ylin/lqcd/l2464f211b600m0102m0509m635/gauge
 
-    max_jobs: 50 # maximum number of jobs in queue at the same time
+    max_jobs: 25 # maximum number of jobs in queue at the same time
     # Shell command that returns the number of queued jobs
-    check_jobs_command: "squeue -u ylin -p long|wc -l"
+    check_jobs_command: "squeue -u ylin -p sky|wc -l"
 
     # The shell command for checking the number of jobs in queue
     cluster_param: 
@@ -11,50 +11,50 @@ l2464f211b600m0102m0509m635:
             # added during the run time and saved to ${datadir}/slurmout
             # directory
             slurm_header:
-                - "#SBATCH --account=class-c-omegamass-20-21"
+                - "#SBATCH --account=axialgpu-sky-20-21"
                 - "#SBATCH --nodes=1"
-                - "#SBATCH --ntasks-per-node=16"
-                - "#SBATCH --time=6:00:00"
-                - "#SBATCH --partition=long"
-                - "#SBATCH --job-name=omega"
+                - "#SBATCH --ntasks-per-node=32"
+                - "#SBATCH --time=24:00:00"
+                - "#SBATCH --partition=sky"
+                - "#SBATCH --job-name=axial_ff"
                 - "#SBATCH --mail-user=99liny@gmail.com"
                 - "#SBATCH --mail-type=FAIL,TIME_LIMIT"
-                - "#SBATCH --qos=normal"
+                - "#SBATCH --qos=sky"
             module_command: 
                 - module purge
                 - module load anaconda2/4.2.0
-                - module load intel/PSXE2019
-            no_config: 3 # number of configurations running in parallel per job for bundling purpose
-            mpi_rank_per_node: 16 # make sure it matches slurm_header --nodes
-            openmp_thread_per_rank: 8 # make sure it matches slurm header --ntasks-per-node
+                - module load intel/psxe2020
+            no_config: 1 # number of configurations running in parallel per job for bundling purpose
+            mpi_rank_per_node: 32 # make sure it matches slurm_header --nodes
+            openmp_thread_per_rank: 1 # make sure it matches slurm header --ntasks-per-node
             QUDA_RESOURCE_PATH: nan # tunning file folder for QUDA. Ignored if not using GPUs.                                                                                 
 
-            projdir: /home/ylin/axial/axial_run # the directory of the scripts
+            projdir: /sdcc/u/ylin/axial/input_dir/a012_unphy_fa/axial_run # the directory of the scripts
 
             # Data saving directory: 
             # $datadir/corr for correlator, $datadir/prop for propagators, and so on
             # if not directory not present, it will be created
-            datadir: /home/ylin/axial/axial_run/datadir/ # data saving directory
-            rundb: a015_phy_omega.sqlite # running database for all gauge configs, searched under projdir/run_db
-            milcbin: ks_spectrum_hisq_gb_baryon_blind_no_sink_links # searched under projdir/bin
+            datadir: /hpcgpfs01/work/lqcd/axial/yin/data/a012_unphy_fa/production # data saving directory
+            rundb: a012_unphy_production.sqlite # running database for all gauge configs, searched under projdir/run_db
+            milcbin: ks_spectrum_hisq_gb_baryon_no_sink_links_test # searched under projdir/bin
 
             # Scratch directory for intermediate correlator files
             # The script will create a unique scrach folder for each job within this folder
-            scratchdir: ./scratch
+            scratchdir: /hpcgpfs01/work/lqcd/axial/yin/temp
 
     # All pmt tasks, this correponds to the parameters required for pythonprompt
     # defined in the cluster param
-    pmt_file: /home/ylin/axial/axial_run/pmt/pmt_3pt_point_g5_sink_disp.py 
+    pmt_file: /sdcc/u/ylin/axial/input_dir/a012_unphy_fa/axial_run/pmt/pmt_3pt_point_ff.py
     pmt_param: 
         a012_unphy_momz1_g5zg5z:
             t0: 0
-            tau_list: [3, 4, 5, 6]
+            tau_list: [3, 4, 5, 6, 7]
             current: [11, 11]
             snk_disp_3pt: 0
             mom: [0, 0, 1]
             gauss_smearing:
-                r0: 4.0
-                N: 50
+                r0: 3.0
+                N: 40
             inversion:
                 L2: 1e-10
                 R2: 0
@@ -62,13 +62,13 @@ l2464f211b600m0102m0509m635:
                 iters: 1000
         a012_unphy_momz1_g5g5:
             t0: 0
-            tau_list: [3, 4, 5, 6]
+            tau_list: [3, 4, 5, 6, 7]
             current: [15, 15]
             snk_disp_3pt: 4
             mom: [0, 0, 1]
             gauss_smearing:
-                r0: 4.0
-                N: 50
+                r0: 3.0
+                N: 40
             inversion:
                 L2: 1e-10
                 R2: 0

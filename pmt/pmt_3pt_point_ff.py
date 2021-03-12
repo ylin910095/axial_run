@@ -69,7 +69,7 @@ if len(sys.argv) == 3 or len(sys.argv) == 7:
   session = Session()
   qs = session.query(Configuration).join(PromptParam).filter(Configuration.id==rundb_id).first()
   gaugefile = qs.configuration
-  pmt_param = yaml.load(qs.pmt_param.param_dict, yaml.FullLoader)
+  pmt_param = yaml.load(qs.pmt_param.param_dict)
   pmt_file = qs.pmt_param.pmt_file
   session.close()
   db_engine.dispose()
@@ -128,7 +128,7 @@ generateNewCorr = True
 flip_sink = False
 
 # source and sink relative displacement for 3pt functions non-zero momentum
-snk_disp_3pt = 4
+snk_disp_3pt = pmt_param['snk_disp_3pt']
 
 # Randomize source points
 def make_random_tstart(time_size, trajectory):

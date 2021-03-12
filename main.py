@@ -2,14 +2,17 @@ import yaml, sys, hashlib, datetime, copy, random, string, subprocess, time
 from run_db.ensemble_db import * # all sqlalchemy imports here
 from utils import gauge_utils
 
-if len(sys.argv) != 3:
-    print('usage:', sys.argv[0], 'db_name', 'slurm_template')
+if len(sys.argv) != 3 and len(sys.argv) != 4:
+    print('%s usage:'%sys.argv[0], 'db_name', 'slurm_template', '[debug]')
     sys.exit(1)
 run_db = sys.argv[1]
 slurm_template = sys.argv[2]
+try:
+    debug = int(sys.argv[3])
+except:
+    debug = 0
 
 wait_time = 60 # Seconds to wait until next submission
-job_limit = 40 # Maximum allowable jobs per queue
 
 while True:
     # Open db
@@ -32,7 +35,7 @@ while True:
     jobq = int(subprocess.check_output(check_jobs_command, shell=True))
     if jobq >= max_jobs:
         wait_time = 360
-        print('Maximum jobs numbers %s reached, sleep for %s seconds'%wait_time)
+        print('Maximum jobs numbers %s reached, sleep for %s seconds'%(max_jobs, wait_time))
         session.close()
         db_engine.dispose()
         time.sleep(wait_time)
@@ -107,26 +110,34 @@ while True:
         so.write(ns)
 
     # Submit job
-    jobid = 123
-    #jobid = subprocess.check_output('sbatch %s'%bash_loc, shell=True)
+    if debug:
+        jobid = 'debug'
+    else:
+        jobout = subprocess.check_output('sbatch %s'%bash_loc, shell=True)
+        jobid = jobout.decode('utf-8').split()[-1]
+        print("Submit %s"%jobid)
     new_bash_fn = "%s_slurm_%s_runid_%s.sh"%(qs_candidate[0].pmt_param.name_tag, jobid, 
                                           "_".join([str(i) for i in qs_id_todo]))
-    print("Submit %s"%jobid)
     os.rename(bash_loc, bash_dir+new_bash_fn)
 
     # Update rundb after submitted 
-    for iqs in qs_candidate:
-        iqs.time_stamp = utc_datetime
-        iqs.running_hash = hashresult
-        iqs.run1_status = 'Queued'
-    session.commit()
+    if not debug:
+        for iqs in qs_candidate:
+            iqs.time_stamp = utc_datetime
+            iqs.running_hash = hashresult
+            iqs.run1_status = 'Queued'
+        session.commit()
 
-    session.close()
-    db_engine.dispose()
+        session.close()
+        db_engine.dispose()
 
-    jobq = int(subprocess.check_output(check_jobs_command, shell=True))
-    if jobq == 0:
-        raise Exception('Fail to see submitted jobs')
-    print('Number of jobs in queue: %s'%jobq)
-    time.sleep(0.5)
+        jobq = int(subprocess.check_output(check_jobs_command, shell=True))
+        if jobq == 0:
+            raise Exception('Fail to see submitted jobs')
+        print('Number of jobs in queue: %s'%jobq)
+        time.sleep(0.5)
+
+    else:
+        print('Debug bash file at %s'%bash_dir+new_bash_fn)
+        sys.exit(0)
 

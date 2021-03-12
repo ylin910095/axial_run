@@ -73,8 +73,8 @@ do
     # Actual work. Change this line to srun if necessary
     mpirun -n ${mpi_rank_per_config} ${MILC_bin} < ${inputfile} >> ${milcoutfile}&
 
-    # Update database status
-    sqlite3 $run_db "update configuration set run1_status='Running' where id==${rundb_id}"
+    # Update database status. Timeout after 10 second to avoid DB locks.
+    sqlite3 -cmd ".timeout 10000" $run_db "update configuration set run1_status='Running' where id==${rundb_id}"
 
     sleep 1
     count=$((count+1))
