@@ -1,6 +1,8 @@
-from ensemble_db import *
-from make_inpfile_name import make_inp
 import glob, sys, os, shutil, hashlib, socket
+# Hack import 
+parent_fp = os.path.dirname(os.path.dirname(os.path.abspath(os.path.realpath((__file__)))))
+sys.path.append(parent_fp)
+from run_db.ensemble_db import *
 
 if len(sys.argv) != 8:
     print("%s usage: run_db running_hash MILC_bin jobscratchdir corroutdir inpdir jobid"%sys.argv[0])
@@ -36,10 +38,9 @@ for ist in run_inst:
         continue
 
     # Move the input file
-    gaugefile = ist.configuration
-    inpname = make_inp(gaugefile, jobid)
-    inpfile = "%s/%s"%(jobscratchdir, inpname)
-    shutil.copy2(inpfile, inpdir)
+    inplist = glob.glob("%s/*.inp"%(jobscratchdir))
+    for iinp in inplist:
+        shutil.copy2(iinp, inpdir)
     
     # Update databases and copy files to correct output location
     for ifile in outcorr:
