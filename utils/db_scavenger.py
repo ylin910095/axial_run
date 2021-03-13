@@ -49,9 +49,9 @@ for ist in run_inst:
     ist.run1_binary_md5 = MILC_md5
     ist.run1_hostname = socket.gethostname() 
     ist.run1_jobid = jobid
-    with open(inpfile, 'r') as inpf:
-        inpread = inpf.read()
-    ist.run1_script = inpread
+    #with open(inpfile, 'r') as inpf:
+    #    inpread = inpf.read()
+    ist.run1_script = 'nan'
     session.commit()
 
 # Clean up

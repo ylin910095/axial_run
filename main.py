@@ -43,7 +43,7 @@ while True:
 
     # Job bundling with the same cluster param and pmt param
     qs_id_list = []
-    cluster_param = yaml.load(qs.ensemble.cluster_param, yaml.FullLoader)
+    cluster_param = yaml.load(qs.ensemble.cluster_param)
     no_config = cluster_param['no_config']
     ensemble_id = qs.ensemble.id
     pmt_param_id = qs.pmt_param.id
