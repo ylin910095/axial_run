@@ -59,7 +59,6 @@ for ensemble_name in run_dict:
             session.commit()
         pmtqs = session.query(PromptParam).filter(
             PromptParam.pmt_file == os.path.abspath(os.path.realpath(pmt_file)),
-            PromptParam.name_tag == name_tag,
             PromptParam.param_dict == dump_param).first()
 
         # Skip the ones that are already in the database
