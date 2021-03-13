@@ -52,7 +52,6 @@ for ensemble_name in run_dict:
 
         # First find if pmt param is already in 
         pmtqs = session.query(PromptParam).filter(PromptParam.pmt_file == pmt_file,
-                                                  PromptParam.name_tag == name_tag,
                                                   PromptParam.param_dict == dump_param).all()
         if len(pmtqs) == 0:
             cpmtqs = PromptParam(pmt_file, dump_param, name_tag)
@@ -60,7 +59,6 @@ for ensemble_name in run_dict:
             session.commit()
         pmtqs = session.query(PromptParam).filter(
             PromptParam.pmt_file == os.path.abspath(os.path.realpath(pmt_file)),
-            PromptParam.name_tag == name_tag,
             PromptParam.param_dict == dump_param).first()
 
         # Skip the ones that are already in the database
