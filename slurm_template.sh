@@ -52,7 +52,7 @@ file_name_list=(${file_name_list}) # sub from main.py. Bash array.
 dbcleanup()
 {
     echo "Timout! dbcleaup() called at $(date)"
-    python ${projdir}/utils/db_scavenger.py $run_db $running_hash $MILC_bin $jobscratchdir $corroutdir $inpdir $SLURM_JOB_ID
+    python2 ${projdir}/utils/db_scavenger.py $run_db $running_hash $MILC_bin $jobscratchdir $corroutdir $inpdir $SLURM_JOB_ID
 }
 
 count=0
@@ -88,7 +88,7 @@ wait
 # the scratch directory. Otherwise, it will revert the run_status
 # to Incompelte.
 echo "Clean up..."
-python ${projdir}/utils/db_scavenger.py $run_db $running_hash $MILC_bin $jobscratchdir $corroutdir $inpdir $SLURM_JOB_ID
+python2 ${projdir}/utils/db_scavenger.py $run_db $running_hash $MILC_bin $jobscratchdir $corroutdir $inpdir $SLURM_JOB_ID
 
 #rm -rf ${jobscratchdir} 
 echo "End time:" $(date)

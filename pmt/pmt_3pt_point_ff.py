@@ -471,7 +471,7 @@ def propsave(tsrc,mom,doSave):
    momstr = '_p'+mom
   if doSave:
     return (
-      'save_ascii_ksprop',
+      'save_parallel_scidac_ksprop',
       #lqcdDir+'/prop'+prodDir+'/'+campaign\
       outprop\
       +'/l'+str(dim[0])+str(dim[3])\
