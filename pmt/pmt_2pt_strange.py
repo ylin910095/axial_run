@@ -124,7 +124,7 @@ flip_sink = False
 
 # Flag for multiRHS. This option only works properly if GRID is compiled
 # with MILC that has multisrc flag enabled
-multisource = True
+multisource = False
 
 # Randomize source points
 def make_random_tstart(time_size, trajectory):
@@ -439,7 +439,7 @@ for i,(tsrc,srctype,srcbase,idx,mom,tag,srclabel) in enumerate(zip(
                                     label=label,
                                     save=save))
         except: # if the previous source ia a base source
-            xport_list.append(ParallelTransportModSource(startSource=srcPSoct[srcbase],
+            xport_list.append(ParallelTransportModSource(startSource=srcPSoct[srcbase].source[0],
                                     disp=int(np.sum(vecdisp[iptcorner])),
                                     dir=dir_str_list,
                                     label=label,
