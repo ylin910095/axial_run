@@ -12,7 +12,7 @@ if len(sys.argv) != 4:
 # Read inputs
 db_name = str(sys.argv[1])
 with open(sys.argv[2], 'r') as yf:
-    run_dict = yaml.load(yf, yaml.FullLoader)
+    run_dict = yaml.load(yf)
 if int(sys.argv[-1]):
     gauge_checksum = True
 else:
@@ -51,9 +51,12 @@ for ensemble_name in run_dict:
         dump_param = yaml.dump(pmt_param)
 
         # First find if pmt param is already in 
-        pmtqs = session.query(PromptParam).filter(PromptParam.pmt_file == pmt_file,
+        pmtqs = session.query(PromptParam).filter(PromptParam.pmt_file == 
+                                                  os.path.abspath(os.path.realpath(pmt_file)),
                                                   PromptParam.param_dict == dump_param).all()
+        print(name_tag)
         if len(pmtqs) == 0:
+            print(dump_param)
             cpmtqs = PromptParam(pmt_file, dump_param, name_tag)
             session.add(cpmtqs)
             session.commit()
