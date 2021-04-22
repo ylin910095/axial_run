@@ -3,8 +3,8 @@ import numpy as np
 import os.path
 import random
 from MILCprompts.MILCprompts import *
-from calcNaikEps import *
-from nameFormat import *
+from MILCprompts.calcNaikEps import *
+from MILCprompts.nameFormat import *
 import sys
 # Hack import
 parent_fp = os.path.dirname(os.path.dirname(os.path.abspath(os.path.realpath((__file__)))))
