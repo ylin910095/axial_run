@@ -124,7 +124,7 @@ flip_sink = False
 
 # Flag for multiRHS. This option only works properly if GRID is compiled
 # with MILC that has multisrc flag enabled
-multisource = False
+multisource = True
 
 # Randomize source points
 def make_random_tstart(time_size, trajectory):
