@@ -90,5 +90,5 @@ wait
 echo "Clean up..."
 python2 ${projdir}/utils/db_scavenger.py $run_db $running_hash $MILC_bin $jobscratchdir $corroutdir $inpdir $SLURM_JOB_ID
 
-#rm -rf ${jobscratchdir} 
+rm -rf ${jobscratchdir} 
 echo "End time:" $(date)
