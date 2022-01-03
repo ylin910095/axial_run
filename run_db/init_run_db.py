@@ -74,6 +74,11 @@ for ensemble_name in run_dict:
                 undone_config.append(iconfig)
             
         for ic, fn in enumerate(undone_config):
+            # Restrict the number of configs to do if nconfigs parameter is present
+            # Useful for performing tests such as different gaussian smearing parameters
+            if "nconfigs" in pmt_param:
+                if ic + (len(undone_config) - len(all_config)) > pmt_param["nconfigs"]:
+                    break
             print("%s: %s"%(fn, name_tag))
             print("%s/%s"%(ic+len(all_config)-len(undone_config), len(all_config)))
         
