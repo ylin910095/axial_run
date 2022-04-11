@@ -14,9 +14,6 @@ export OMP_PLACES=threads
 export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK}
 export MPICH_MAX_THREAD_SAFETY=multiple
 
-# Load the appropriate conda
-conda activate py27
-
 echo "Start time:" $(date)
 echo "SLURM_JOB_ID:" $SLURM_JOB_ID
 echo "SLURM_JOB_NUM_NODES:" $SLURM_JOB_NUM_NODES
