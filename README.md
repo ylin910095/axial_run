@@ -11,6 +11,10 @@ One easy way to install them all would be simply installing `miniconda` with pyt
 conda install scipy pyyaml sqlalchemy sqlite3 cheetah
 ```
 
+## Test before production runs!
+Before following the instructions below, go to ```./test_scripts``` to perform tests using ```example_slurm.sh```. Then compare the correlator and log files it generates to the ones in ```./test_scripts/example_out``` to make sure nothing funny going on! You can diff the correlator files easily using ```python2 ./test_scripts/util/diffFloat.py corr1 corr2```. 
+
+
 ## Instructions
 ### WARNING: Use python2 for all applications! Mixing python3 with python2 will cause inconsistencies in databases ###
 
