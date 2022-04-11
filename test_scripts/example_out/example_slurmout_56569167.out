@@ -1,0 +1,6 @@
+ModuleCmd_Load.c(244):ERROR:105: Unable to locate a modulefile for 'PrgEnv-nvidia'
+ModuleCmd_Load.c(244):ERROR:105: Unable to locate a modulefile for 'cudatoolkit'
+Start time: Tue Mar 22 18:16:28 PDT 2022
+SLURM_JOB_ID: 56569167
+SLURM_JOB_NUM_NODES: 256
+End time: Wed Mar 23 19:28:36 PDT 2022

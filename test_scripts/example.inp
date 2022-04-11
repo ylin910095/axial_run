@@ -1,0 +1,2480 @@
+
+#== Geometry ==
+prompt 0
+nx 96
+ny 96
+nz 96
+nt 192
+iseed 4879082045915241831
+job_id job-test-baryon-ks-spectrum
+
+#== Gauge ==
+reload_parallel ./l96192f211b672m0008m022m260b-Coul.144.ildg
+u0 0.85535
+no_gauge_fix
+forget
+staple_weight 0
+ape_iter 0
+coordinate_origin 0 0 0 0
+time_bc antiperiodic
+max_number_of_eigenpairs 0
+number_of_pbp_masses 0
+number_of_base_sources 8
+
+#== source 0: CornerWallSource ==
+corner_wall_0
+field_type KS
+subset full
+t0 36
+source_label cw0
+forget_source
+
+#== source 1: CornerWallSource ==
+corner_wall_x
+field_type KS
+subset full
+t0 36
+source_label cwx
+forget_source
+
+#== source 2: CornerWallSource ==
+corner_wall_y
+field_type KS
+subset full
+t0 36
+source_label cwy
+forget_source
+
+#== source 3: CornerWallSource ==
+corner_wall_xy
+field_type KS
+subset full
+t0 36
+source_label cwxy
+forget_source
+
+#== source 4: CornerWallSource ==
+corner_wall_z
+field_type KS
+subset full
+t0 36
+source_label cwz
+forget_source
+
+#== source 5: CornerWallSource ==
+corner_wall_zx
+field_type KS
+subset full
+t0 36
+source_label cwzx
+forget_source
+
+#== source 6: CornerWallSource ==
+corner_wall_yz
+field_type KS
+subset full
+t0 36
+source_label cwyz
+forget_source
+
+#== source 7: CornerWallSource ==
+corner_wall_xyz
+field_type KS
+subset full
+t0 36
+source_label cwxyz
+forget_source
+number_of_modified_sources 0
+number_of_sets 8
+
+#== KSsolveSet ==
+max_cg_iterations 8000
+max_cg_restarts 300
+check yes
+momentum_twist 0 0 0
+precision 2
+source 0
+number_of_propagators 1
+
+#== propagator 0: KSsolveElement ==
+mass 0.0008
+naik_term_epsilon 0
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+fresh_ksprop
+forget_ksprop
+
+
+#== KSsolveSet ==
+max_cg_iterations 8000
+max_cg_restarts 300
+check yes
+momentum_twist 0 0 0
+precision 2
+source 1
+number_of_propagators 1
+
+#== propagator 1: KSsolveElement ==
+mass 0.0008
+naik_term_epsilon 0
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+fresh_ksprop
+forget_ksprop
+
+
+#== KSsolveSet ==
+max_cg_iterations 8000
+max_cg_restarts 300
+check yes
+momentum_twist 0 0 0
+precision 2
+source 2
+number_of_propagators 1
+
+#== propagator 2: KSsolveElement ==
+mass 0.0008
+naik_term_epsilon 0
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+fresh_ksprop
+forget_ksprop
+
+
+#== KSsolveSet ==
+max_cg_iterations 8000
+max_cg_restarts 300
+check yes
+momentum_twist 0 0 0
+precision 2
+source 3
+number_of_propagators 1
+
+#== propagator 3: KSsolveElement ==
+mass 0.0008
+naik_term_epsilon 0
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+fresh_ksprop
+forget_ksprop
+
+
+#== KSsolveSet ==
+max_cg_iterations 8000
+max_cg_restarts 300
+check yes
+momentum_twist 0 0 0
+precision 2
+source 4
+number_of_propagators 1
+
+#== propagator 4: KSsolveElement ==
+mass 0.0008
+naik_term_epsilon 0
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+fresh_ksprop
+forget_ksprop
+
+
+#== KSsolveSet ==
+max_cg_iterations 8000
+max_cg_restarts 300
+check yes
+momentum_twist 0 0 0
+precision 2
+source 5
+number_of_propagators 1
+
+#== propagator 5: KSsolveElement ==
+mass 0.0008
+naik_term_epsilon 0
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+fresh_ksprop
+forget_ksprop
+
+
+#== KSsolveSet ==
+max_cg_iterations 8000
+max_cg_restarts 300
+check yes
+momentum_twist 0 0 0
+precision 2
+source 6
+number_of_propagators 1
+
+#== propagator 6: KSsolveElement ==
+mass 0.0008
+naik_term_epsilon 0
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+fresh_ksprop
+forget_ksprop
+
+
+#== KSsolveSet ==
+max_cg_iterations 8000
+max_cg_restarts 300
+check yes
+momentum_twist 0 0 0
+precision 2
+source 7
+number_of_propagators 1
+
+#== propagator 7: KSsolveElement ==
+mass 0.0008
+naik_term_epsilon 0
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+fresh_ksprop
+forget_ksprop
+
+number_of_quarks 152
+
+#== quark 0: QuarkIdentitySink ==
+propagator 0
+identity
+op_label d
+forget_ksprop
+
+#== quark 1: QuarkIdentitySink ==
+propagator 1
+identity
+op_label d
+forget_ksprop
+
+#== quark 2: QuarkIdentitySink ==
+propagator 2
+identity
+op_label d
+forget_ksprop
+
+#== quark 3: QuarkIdentitySink ==
+propagator 3
+identity
+op_label d
+forget_ksprop
+
+#== quark 4: QuarkIdentitySink ==
+propagator 4
+identity
+op_label d
+forget_ksprop
+
+#== quark 5: QuarkIdentitySink ==
+propagator 5
+identity
+op_label d
+forget_ksprop
+
+#== quark 6: QuarkIdentitySink ==
+propagator 6
+identity
+op_label d
+forget_ksprop
+
+#== quark 7: QuarkIdentitySink ==
+propagator 7
+identity
+op_label d
+forget_ksprop
+
+#== quark 8: FatCovariantGaussianSink ==
+propagator 0
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 9: FatCovariantGaussianSink ==
+propagator 1
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 10: FatCovariantGaussianSink ==
+propagator 2
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 11: FatCovariantGaussianSink ==
+propagator 3
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 12: FatCovariantGaussianSink ==
+propagator 4
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 13: FatCovariantGaussianSink ==
+propagator 5
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 14: FatCovariantGaussianSink ==
+propagator 6
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 15: FatCovariantGaussianSink ==
+propagator 7
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 16: FatCovariantGaussianSink ==
+propagator 0
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 17: FatCovariantGaussianSink ==
+propagator 1
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 18: FatCovariantGaussianSink ==
+propagator 2
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 19: FatCovariantGaussianSink ==
+propagator 3
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 20: FatCovariantGaussianSink ==
+propagator 4
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 21: FatCovariantGaussianSink ==
+propagator 5
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 22: FatCovariantGaussianSink ==
+propagator 6
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 23: FatCovariantGaussianSink ==
+propagator 7
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 24: KSExtSrcSink ==
+quark 0
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 43
+op_label BBq000t007c0
+forget_ksprop
+
+#== quark 25: KSExtSrcSink ==
+quark 1
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 43
+op_label BBq000t007cx
+forget_ksprop
+
+#== quark 26: KSExtSrcSink ==
+quark 2
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 43
+op_label BBq000t007cy
+forget_ksprop
+
+#== quark 27: KSExtSrcSink ==
+quark 3
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 43
+op_label BBq000t007cxy
+forget_ksprop
+
+#== quark 28: KSExtSrcSink ==
+quark 4
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 43
+op_label BBq000t007cz
+forget_ksprop
+
+#== quark 29: KSExtSrcSink ==
+quark 5
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 43
+op_label BBq000t007czx
+forget_ksprop
+
+#== quark 30: KSExtSrcSink ==
+quark 6
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 43
+op_label BBq000t007cyz
+forget_ksprop
+
+#== quark 31: KSExtSrcSink ==
+quark 7
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 43
+op_label BBq000t007cxyz
+forget_ksprop
+
+#== quark 32: KSInverseSink ==
+quark 24
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label ext0
+forget_ksprop
+
+#== quark 33: KSInverseSink ==
+quark 25
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label extx
+forget_ksprop
+
+#== quark 34: KSInverseSink ==
+quark 26
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label exty
+forget_ksprop
+
+#== quark 35: KSInverseSink ==
+quark 27
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label extxy
+forget_ksprop
+
+#== quark 36: KSInverseSink ==
+quark 28
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label extz
+forget_ksprop
+
+#== quark 37: KSInverseSink ==
+quark 29
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label extzx
+forget_ksprop
+
+#== quark 38: KSInverseSink ==
+quark 30
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label extyz
+forget_ksprop
+
+#== quark 39: KSInverseSink ==
+quark 31
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label extxyz
+forget_ksprop
+
+#== quark 40: FatCovariantGaussianSink ==
+quark 32
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 41: FatCovariantGaussianSink ==
+quark 33
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 42: FatCovariantGaussianSink ==
+quark 34
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 43: FatCovariantGaussianSink ==
+quark 35
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 44: FatCovariantGaussianSink ==
+quark 36
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 45: FatCovariantGaussianSink ==
+quark 37
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 46: FatCovariantGaussianSink ==
+quark 38
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 47: FatCovariantGaussianSink ==
+quark 39
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 48: FatCovariantGaussianSink ==
+quark 32
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 49: FatCovariantGaussianSink ==
+quark 33
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 50: FatCovariantGaussianSink ==
+quark 34
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 51: FatCovariantGaussianSink ==
+quark 35
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 52: FatCovariantGaussianSink ==
+quark 36
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 53: FatCovariantGaussianSink ==
+quark 37
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 54: FatCovariantGaussianSink ==
+quark 38
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 55: FatCovariantGaussianSink ==
+quark 39
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 56: KSExtSrcSink ==
+quark 0
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 44
+op_label BBq000t008c0
+forget_ksprop
+
+#== quark 57: KSExtSrcSink ==
+quark 1
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 44
+op_label BBq000t008cx
+forget_ksprop
+
+#== quark 58: KSExtSrcSink ==
+quark 2
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 44
+op_label BBq000t008cy
+forget_ksprop
+
+#== quark 59: KSExtSrcSink ==
+quark 3
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 44
+op_label BBq000t008cxy
+forget_ksprop
+
+#== quark 60: KSExtSrcSink ==
+quark 4
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 44
+op_label BBq000t008cz
+forget_ksprop
+
+#== quark 61: KSExtSrcSink ==
+quark 5
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 44
+op_label BBq000t008czx
+forget_ksprop
+
+#== quark 62: KSExtSrcSink ==
+quark 6
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 44
+op_label BBq000t008cyz
+forget_ksprop
+
+#== quark 63: KSExtSrcSink ==
+quark 7
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 44
+op_label BBq000t008cxyz
+forget_ksprop
+
+#== quark 64: KSInverseSink ==
+quark 56
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label ext0
+forget_ksprop
+
+#== quark 65: KSInverseSink ==
+quark 57
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label extx
+forget_ksprop
+
+#== quark 66: KSInverseSink ==
+quark 58
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label exty
+forget_ksprop
+
+#== quark 67: KSInverseSink ==
+quark 59
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label extxy
+forget_ksprop
+
+#== quark 68: KSInverseSink ==
+quark 60
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label extz
+forget_ksprop
+
+#== quark 69: KSInverseSink ==
+quark 61
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label extzx
+forget_ksprop
+
+#== quark 70: KSInverseSink ==
+quark 62
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label extyz
+forget_ksprop
+
+#== quark 71: KSInverseSink ==
+quark 63
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label extxyz
+forget_ksprop
+
+#== quark 72: FatCovariantGaussianSink ==
+quark 64
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 73: FatCovariantGaussianSink ==
+quark 65
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 74: FatCovariantGaussianSink ==
+quark 66
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 75: FatCovariantGaussianSink ==
+quark 67
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 76: FatCovariantGaussianSink ==
+quark 68
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 77: FatCovariantGaussianSink ==
+quark 69
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 78: FatCovariantGaussianSink ==
+quark 70
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 79: FatCovariantGaussianSink ==
+quark 71
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 80: FatCovariantGaussianSink ==
+quark 64
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 81: FatCovariantGaussianSink ==
+quark 65
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 82: FatCovariantGaussianSink ==
+quark 66
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 83: FatCovariantGaussianSink ==
+quark 67
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 84: FatCovariantGaussianSink ==
+quark 68
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 85: FatCovariantGaussianSink ==
+quark 69
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 86: FatCovariantGaussianSink ==
+quark 70
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 87: FatCovariantGaussianSink ==
+quark 71
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 88: KSExtSrcSink ==
+quark 0
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 45
+op_label BBq000t009c0
+forget_ksprop
+
+#== quark 89: KSExtSrcSink ==
+quark 1
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 45
+op_label BBq000t009cx
+forget_ksprop
+
+#== quark 90: KSExtSrcSink ==
+quark 2
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 45
+op_label BBq000t009cy
+forget_ksprop
+
+#== quark 91: KSExtSrcSink ==
+quark 3
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 45
+op_label BBq000t009cxy
+forget_ksprop
+
+#== quark 92: KSExtSrcSink ==
+quark 4
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 45
+op_label BBq000t009cz
+forget_ksprop
+
+#== quark 93: KSExtSrcSink ==
+quark 5
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 45
+op_label BBq000t009czx
+forget_ksprop
+
+#== quark 94: KSExtSrcSink ==
+quark 6
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 45
+op_label BBq000t009cyz
+forget_ksprop
+
+#== quark 95: KSExtSrcSink ==
+quark 7
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 45
+op_label BBq000t009cxyz
+forget_ksprop
+
+#== quark 96: KSInverseSink ==
+quark 88
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label ext0
+forget_ksprop
+
+#== quark 97: KSInverseSink ==
+quark 89
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label extx
+forget_ksprop
+
+#== quark 98: KSInverseSink ==
+quark 90
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label exty
+forget_ksprop
+
+#== quark 99: KSInverseSink ==
+quark 91
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label extxy
+forget_ksprop
+
+#== quark 100: KSInverseSink ==
+quark 92
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label extz
+forget_ksprop
+
+#== quark 101: KSInverseSink ==
+quark 93
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label extzx
+forget_ksprop
+
+#== quark 102: KSInverseSink ==
+quark 94
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label extyz
+forget_ksprop
+
+#== quark 103: KSInverseSink ==
+quark 95
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label extxyz
+forget_ksprop
+
+#== quark 104: FatCovariantGaussianSink ==
+quark 96
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 105: FatCovariantGaussianSink ==
+quark 97
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 106: FatCovariantGaussianSink ==
+quark 98
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 107: FatCovariantGaussianSink ==
+quark 99
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 108: FatCovariantGaussianSink ==
+quark 100
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 109: FatCovariantGaussianSink ==
+quark 101
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 110: FatCovariantGaussianSink ==
+quark 102
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 111: FatCovariantGaussianSink ==
+quark 103
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 112: FatCovariantGaussianSink ==
+quark 96
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 113: FatCovariantGaussianSink ==
+quark 97
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 114: FatCovariantGaussianSink ==
+quark 98
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 115: FatCovariantGaussianSink ==
+quark 99
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 116: FatCovariantGaussianSink ==
+quark 100
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 117: FatCovariantGaussianSink ==
+quark 101
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 118: FatCovariantGaussianSink ==
+quark 102
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 119: FatCovariantGaussianSink ==
+quark 103
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 120: KSExtSrcSink ==
+quark 0
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 46
+op_label BBq000t010c0
+forget_ksprop
+
+#== quark 121: KSExtSrcSink ==
+quark 1
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 46
+op_label BBq000t010cx
+forget_ksprop
+
+#== quark 122: KSExtSrcSink ==
+quark 2
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 46
+op_label BBq000t010cy
+forget_ksprop
+
+#== quark 123: KSExtSrcSink ==
+quark 3
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 46
+op_label BBq000t010cxy
+forget_ksprop
+
+#== quark 124: KSExtSrcSink ==
+quark 4
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 46
+op_label BBq000t010cz
+forget_ksprop
+
+#== quark 125: KSExtSrcSink ==
+quark 5
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 46
+op_label BBq000t010czx
+forget_ksprop
+
+#== quark 126: KSExtSrcSink ==
+quark 6
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 46
+op_label BBq000t010cyz
+forget_ksprop
+
+#== quark 127: KSExtSrcSink ==
+quark 7
+ext_src_ks
+spin_taste_extend G5Z-G5Z
+momentum 0 0 0
+t0 46
+op_label BBq000t010cxyz
+forget_ksprop
+
+#== quark 128: KSInverseSink ==
+quark 120
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label ext0
+forget_ksprop
+
+#== quark 129: KSInverseSink ==
+quark 121
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label extx
+forget_ksprop
+
+#== quark 130: KSInverseSink ==
+quark 122
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label exty
+forget_ksprop
+
+#== quark 131: KSInverseSink ==
+quark 123
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label extxy
+forget_ksprop
+
+#== quark 132: KSInverseSink ==
+quark 124
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label extz
+forget_ksprop
+
+#== quark 133: KSInverseSink ==
+quark 125
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label extzx
+forget_ksprop
+
+#== quark 134: KSInverseSink ==
+quark 126
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label extyz
+forget_ksprop
+
+#== quark 135: KSInverseSink ==
+quark 127
+ks_inverse
+mass 0.0008
+naik_term_epsilon 0
+u0 0.85535
+max_cg_iterations 8000
+max_cg_restarts 300
+deflate no
+error_for_propagator 1e-10
+rel_error_for_propagator 0
+precision 2
+momentum_twist 0 0 0
+op_label extxyz
+forget_ksprop
+
+#== quark 136: FatCovariantGaussianSink ==
+quark 128
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 137: FatCovariantGaussianSink ==
+quark 129
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 138: FatCovariantGaussianSink ==
+quark 130
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 139: FatCovariantGaussianSink ==
+quark 131
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 140: FatCovariantGaussianSink ==
+quark 132
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 141: FatCovariantGaussianSink ==
+quark 133
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 142: FatCovariantGaussianSink ==
+quark 134
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 143: FatCovariantGaussianSink ==
+quark 135
+fat_covariant_gaussian
+stride 2
+r0 3
+source_iters 40
+op_label Gr3.0N40
+forget_ksprop
+
+#== quark 144: FatCovariantGaussianSink ==
+quark 128
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 145: FatCovariantGaussianSink ==
+quark 129
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 146: FatCovariantGaussianSink ==
+quark 130
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 147: FatCovariantGaussianSink ==
+quark 131
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 148: FatCovariantGaussianSink ==
+quark 132
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 149: FatCovariantGaussianSink ==
+quark 133
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 150: FatCovariantGaussianSink ==
+quark 134
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+
+#== quark 151: FatCovariantGaussianSink ==
+quark 135
+fat_covariant_gaussian
+stride 2
+r0 6
+source_iters 70
+op_label Gr6.0N70
+forget_ksprop
+number_of_mesons 0
+number_of_baryons 0
+number_of_quark_octets 15
+
+#== octet 0: KSQuarkOctet ==
+octet 0 1 2 3 4 5 6 7
+
+#== octet 1: KSQuarkOctet ==
+octet 8 9 10 11 12 13 14 15
+
+#== octet 2: KSQuarkOctet ==
+octet 16 17 18 19 20 21 22 23
+
+#== octet 3: KSQuarkOctet ==
+octet 32 33 34 35 36 37 38 39
+
+#== octet 4: KSQuarkOctet ==
+octet 40 41 42 43 44 45 46 47
+
+#== octet 5: KSQuarkOctet ==
+octet 48 49 50 51 52 53 54 55
+
+#== octet 6: KSQuarkOctet ==
+octet 64 65 66 67 68 69 70 71
+
+#== octet 7: KSQuarkOctet ==
+octet 72 73 74 75 76 77 78 79
+
+#== octet 8: KSQuarkOctet ==
+octet 80 81 82 83 84 85 86 87
+
+#== octet 9: KSQuarkOctet ==
+octet 96 97 98 99 100 101 102 103
+
+#== octet 10: KSQuarkOctet ==
+octet 104 105 106 107 108 109 110 111
+
+#== octet 11: KSQuarkOctet ==
+octet 112 113 114 115 116 117 118 119
+
+#== octet 12: KSQuarkOctet ==
+octet 128 129 130 131 132 133 134 135
+
+#== octet 13: KSQuarkOctet ==
+octet 136 137 138 139 140 141 142 143
+
+#== octet 14: KSQuarkOctet ==
+octet 144 145 146 147 148 149 150 151
+number_of_gb_baryons 15
+
+#== GBBaryonSpectrum ==
+triplet 0 0 0
+spectrum_request gb_baryon
+quark_content uud
+save_corr_fnal ./bar2pt.01.l96192_rb0144_m0008_t036_cw_c40239402.coul.cor
+r_offset 0 0 0 36
+momentum 0 0 0 EO EO EO
+spin_taste 2point
+number_of_correlators 32
+correlator nd_b_16p_s_2_16p_s_2 1 * 1.0 16+ S 2 16+ S 2 point cube
+correlator nd_b_16p_s_2_16p_s_3 1 * 1.0 16+ S 2 16+ S 3 point cube
+correlator nd_b_16p_s_2_16p_s_41 1 * 1.0 16+ S 2 16+ S 41 point cube
+correlator nd_b_16p_s_2_16p_s_61 1 * 1.0 16+ S 2 16+ S 61 point cube
+correlator nd_b_16p_s_3_16p_s_2 1 * 1.0 16+ S 3 16+ S 2 point cube
+correlator nd_b_16p_s_3_16p_s_3 1 * 1.0 16+ S 3 16+ S 3 point cube
+correlator nd_b_16p_s_3_16p_s_41 1 * 1.0 16+ S 3 16+ S 41 point cube
+correlator nd_b_16p_s_3_16p_s_61 1 * 1.0 16+ S 3 16+ S 61 point cube
+correlator nd_b_16p_s_41_16p_s_2 1 * 1.0 16+ S 41 16+ S 2 point cube
+correlator nd_b_16p_s_41_16p_s_3 1 * 1.0 16+ S 41 16+ S 3 point cube
+correlator nd_b_16p_s_41_16p_s_41 1 * 1.0 16+ S 41 16+ S 41 point cube
+correlator nd_b_16p_s_41_16p_s_61 1 * 1.0 16+ S 41 16+ S 61 point cube
+correlator nd_b_16p_s_61_16p_s_2 1 * 1.0 16+ S 61 16+ S 2 point cube
+correlator nd_b_16p_s_61_16p_s_3 1 * 1.0 16+ S 61 16+ S 3 point cube
+correlator nd_b_16p_s_61_16p_s_41 1 * 1.0 16+ S 61 16+ S 41 point cube
+correlator nd_b_16p_s_61_16p_s_61 1 * 1.0 16+ S 61 16+ S 61 point cube
+correlator nd_b_16m_s_2_16m_s_2 1 * 1.0 16- S 2 16- S 2 point cube
+correlator nd_b_16m_s_2_16m_s_3 1 * 1.0 16- S 2 16- S 3 point cube
+correlator nd_b_16m_s_2_16m_s_41 1 * 1.0 16- S 2 16- S 41 point cube
+correlator nd_b_16m_s_2_16m_s_61 1 * 1.0 16- S 2 16- S 61 point cube
+correlator nd_b_16m_s_3_16m_s_2 1 * 1.0 16- S 3 16- S 2 point cube
+correlator nd_b_16m_s_3_16m_s_3 1 * 1.0 16- S 3 16- S 3 point cube
+correlator nd_b_16m_s_3_16m_s_41 1 * 1.0 16- S 3 16- S 41 point cube
+correlator nd_b_16m_s_3_16m_s_61 1 * 1.0 16- S 3 16- S 61 point cube
+correlator nd_b_16m_s_41_16m_s_2 1 * 1.0 16- S 41 16- S 2 point cube
+correlator nd_b_16m_s_41_16m_s_3 1 * 1.0 16- S 41 16- S 3 point cube
+correlator nd_b_16m_s_41_16m_s_41 1 * 1.0 16- S 41 16- S 41 point cube
+correlator nd_b_16m_s_41_16m_s_61 1 * 1.0 16- S 41 16- S 61 point cube
+correlator nd_b_16m_s_61_16m_s_2 1 * 1.0 16- S 61 16- S 2 point cube
+correlator nd_b_16m_s_61_16m_s_3 1 * 1.0 16- S 61 16- S 3 point cube
+correlator nd_b_16m_s_61_16m_s_41 1 * 1.0 16- S 61 16- S 41 point cube
+correlator nd_b_16m_s_61_16m_s_61 1 * 1.0 16- S 61 16- S 61 point cube
+
+#== GBBaryonSpectrum ==
+triplet 1 1 1
+spectrum_request gb_baryon
+quark_content uud
+save_corr_fnal ./bar2pt.01.l96192_rb0144_m0008_t036_cw_c40239402.coul.cor
+r_offset 0 0 0 36
+momentum 0 0 0 EO EO EO
+spin_taste 2point
+number_of_correlators 32
+correlator nd_b_16p_s_2_16p_s_2 1 * 1.0 16+ S 2 16+ S 2 point cube
+correlator nd_b_16p_s_2_16p_s_3 1 * 1.0 16+ S 2 16+ S 3 point cube
+correlator nd_b_16p_s_2_16p_s_41 1 * 1.0 16+ S 2 16+ S 41 point cube
+correlator nd_b_16p_s_2_16p_s_61 1 * 1.0 16+ S 2 16+ S 61 point cube
+correlator nd_b_16p_s_3_16p_s_2 1 * 1.0 16+ S 3 16+ S 2 point cube
+correlator nd_b_16p_s_3_16p_s_3 1 * 1.0 16+ S 3 16+ S 3 point cube
+correlator nd_b_16p_s_3_16p_s_41 1 * 1.0 16+ S 3 16+ S 41 point cube
+correlator nd_b_16p_s_3_16p_s_61 1 * 1.0 16+ S 3 16+ S 61 point cube
+correlator nd_b_16p_s_41_16p_s_2 1 * 1.0 16+ S 41 16+ S 2 point cube
+correlator nd_b_16p_s_41_16p_s_3 1 * 1.0 16+ S 41 16+ S 3 point cube
+correlator nd_b_16p_s_41_16p_s_41 1 * 1.0 16+ S 41 16+ S 41 point cube
+correlator nd_b_16p_s_41_16p_s_61 1 * 1.0 16+ S 41 16+ S 61 point cube
+correlator nd_b_16p_s_61_16p_s_2 1 * 1.0 16+ S 61 16+ S 2 point cube
+correlator nd_b_16p_s_61_16p_s_3 1 * 1.0 16+ S 61 16+ S 3 point cube
+correlator nd_b_16p_s_61_16p_s_41 1 * 1.0 16+ S 61 16+ S 41 point cube
+correlator nd_b_16p_s_61_16p_s_61 1 * 1.0 16+ S 61 16+ S 61 point cube
+correlator nd_b_16m_s_2_16m_s_2 1 * 1.0 16- S 2 16- S 2 point cube
+correlator nd_b_16m_s_2_16m_s_3 1 * 1.0 16- S 2 16- S 3 point cube
+correlator nd_b_16m_s_2_16m_s_41 1 * 1.0 16- S 2 16- S 41 point cube
+correlator nd_b_16m_s_2_16m_s_61 1 * 1.0 16- S 2 16- S 61 point cube
+correlator nd_b_16m_s_3_16m_s_2 1 * 1.0 16- S 3 16- S 2 point cube
+correlator nd_b_16m_s_3_16m_s_3 1 * 1.0 16- S 3 16- S 3 point cube
+correlator nd_b_16m_s_3_16m_s_41 1 * 1.0 16- S 3 16- S 41 point cube
+correlator nd_b_16m_s_3_16m_s_61 1 * 1.0 16- S 3 16- S 61 point cube
+correlator nd_b_16m_s_41_16m_s_2 1 * 1.0 16- S 41 16- S 2 point cube
+correlator nd_b_16m_s_41_16m_s_3 1 * 1.0 16- S 41 16- S 3 point cube
+correlator nd_b_16m_s_41_16m_s_41 1 * 1.0 16- S 41 16- S 41 point cube
+correlator nd_b_16m_s_41_16m_s_61 1 * 1.0 16- S 41 16- S 61 point cube
+correlator nd_b_16m_s_61_16m_s_2 1 * 1.0 16- S 61 16- S 2 point cube
+correlator nd_b_16m_s_61_16m_s_3 1 * 1.0 16- S 61 16- S 3 point cube
+correlator nd_b_16m_s_61_16m_s_41 1 * 1.0 16- S 61 16- S 41 point cube
+correlator nd_b_16m_s_61_16m_s_61 1 * 1.0 16- S 61 16- S 61 point cube
+
+#== GBBaryonSpectrum ==
+triplet 2 2 2
+spectrum_request gb_baryon
+quark_content uud
+save_corr_fnal ./bar2pt.01.l96192_rb0144_m0008_t036_cw_c40239402.coul.cor
+r_offset 0 0 0 36
+momentum 0 0 0 EO EO EO
+spin_taste 2point
+number_of_correlators 32
+correlator nd_b_16p_s_2_16p_s_2 1 * 1.0 16+ S 2 16+ S 2 point cube
+correlator nd_b_16p_s_2_16p_s_3 1 * 1.0 16+ S 2 16+ S 3 point cube
+correlator nd_b_16p_s_2_16p_s_41 1 * 1.0 16+ S 2 16+ S 41 point cube
+correlator nd_b_16p_s_2_16p_s_61 1 * 1.0 16+ S 2 16+ S 61 point cube
+correlator nd_b_16p_s_3_16p_s_2 1 * 1.0 16+ S 3 16+ S 2 point cube
+correlator nd_b_16p_s_3_16p_s_3 1 * 1.0 16+ S 3 16+ S 3 point cube
+correlator nd_b_16p_s_3_16p_s_41 1 * 1.0 16+ S 3 16+ S 41 point cube
+correlator nd_b_16p_s_3_16p_s_61 1 * 1.0 16+ S 3 16+ S 61 point cube
+correlator nd_b_16p_s_41_16p_s_2 1 * 1.0 16+ S 41 16+ S 2 point cube
+correlator nd_b_16p_s_41_16p_s_3 1 * 1.0 16+ S 41 16+ S 3 point cube
+correlator nd_b_16p_s_41_16p_s_41 1 * 1.0 16+ S 41 16+ S 41 point cube
+correlator nd_b_16p_s_41_16p_s_61 1 * 1.0 16+ S 41 16+ S 61 point cube
+correlator nd_b_16p_s_61_16p_s_2 1 * 1.0 16+ S 61 16+ S 2 point cube
+correlator nd_b_16p_s_61_16p_s_3 1 * 1.0 16+ S 61 16+ S 3 point cube
+correlator nd_b_16p_s_61_16p_s_41 1 * 1.0 16+ S 61 16+ S 41 point cube
+correlator nd_b_16p_s_61_16p_s_61 1 * 1.0 16+ S 61 16+ S 61 point cube
+correlator nd_b_16m_s_2_16m_s_2 1 * 1.0 16- S 2 16- S 2 point cube
+correlator nd_b_16m_s_2_16m_s_3 1 * 1.0 16- S 2 16- S 3 point cube
+correlator nd_b_16m_s_2_16m_s_41 1 * 1.0 16- S 2 16- S 41 point cube
+correlator nd_b_16m_s_2_16m_s_61 1 * 1.0 16- S 2 16- S 61 point cube
+correlator nd_b_16m_s_3_16m_s_2 1 * 1.0 16- S 3 16- S 2 point cube
+correlator nd_b_16m_s_3_16m_s_3 1 * 1.0 16- S 3 16- S 3 point cube
+correlator nd_b_16m_s_3_16m_s_41 1 * 1.0 16- S 3 16- S 41 point cube
+correlator nd_b_16m_s_3_16m_s_61 1 * 1.0 16- S 3 16- S 61 point cube
+correlator nd_b_16m_s_41_16m_s_2 1 * 1.0 16- S 41 16- S 2 point cube
+correlator nd_b_16m_s_41_16m_s_3 1 * 1.0 16- S 41 16- S 3 point cube
+correlator nd_b_16m_s_41_16m_s_41 1 * 1.0 16- S 41 16- S 41 point cube
+correlator nd_b_16m_s_41_16m_s_61 1 * 1.0 16- S 41 16- S 61 point cube
+correlator nd_b_16m_s_61_16m_s_2 1 * 1.0 16- S 61 16- S 2 point cube
+correlator nd_b_16m_s_61_16m_s_3 1 * 1.0 16- S 61 16- S 3 point cube
+correlator nd_b_16m_s_61_16m_s_41 1 * 1.0 16- S 61 16- S 41 point cube
+correlator nd_b_16m_s_61_16m_s_61 1 * 1.0 16- S 61 16- S 61 point cube
+
+#== GBBaryonSpectrum ==
+triplet 3 0 0
+spectrum_request gb_baryon
+quark_content uud
+save_corr_fnal ./bar3pt.01.l96192_rb0144_m0008_t036_p000_xBB_q000_i007_b8_c40239402.coul.cor
+r_offset 0 0 0 36
+momentum 0 0 0 EO EO EO
+spin_taste G5Z-G5Z
+number_of_correlators 32
+correlator nd_b_16p_s_2_16p_s_2 1 * 1.0 16+ S 2 16+ S 2 point cube
+correlator nd_b_16p_s_2_16p_s_3 1 * 1.0 16+ S 2 16+ S 3 point cube
+correlator nd_b_16p_s_2_16p_s_41 1 * 1.0 16+ S 2 16+ S 41 point cube
+correlator nd_b_16p_s_2_16p_s_61 1 * 1.0 16+ S 2 16+ S 61 point cube
+correlator nd_b_16p_s_3_16p_s_2 1 * 1.0 16+ S 3 16+ S 2 point cube
+correlator nd_b_16p_s_3_16p_s_3 1 * 1.0 16+ S 3 16+ S 3 point cube
+correlator nd_b_16p_s_3_16p_s_41 1 * 1.0 16+ S 3 16+ S 41 point cube
+correlator nd_b_16p_s_3_16p_s_61 1 * 1.0 16+ S 3 16+ S 61 point cube
+correlator nd_b_16p_s_41_16p_s_2 1 * 1.0 16+ S 41 16+ S 2 point cube
+correlator nd_b_16p_s_41_16p_s_3 1 * 1.0 16+ S 41 16+ S 3 point cube
+correlator nd_b_16p_s_41_16p_s_41 1 * 1.0 16+ S 41 16+ S 41 point cube
+correlator nd_b_16p_s_41_16p_s_61 1 * 1.0 16+ S 41 16+ S 61 point cube
+correlator nd_b_16p_s_61_16p_s_2 1 * 1.0 16+ S 61 16+ S 2 point cube
+correlator nd_b_16p_s_61_16p_s_3 1 * 1.0 16+ S 61 16+ S 3 point cube
+correlator nd_b_16p_s_61_16p_s_41 1 * 1.0 16+ S 61 16+ S 41 point cube
+correlator nd_b_16p_s_61_16p_s_61 1 * 1.0 16+ S 61 16+ S 61 point cube
+correlator nd_b_16m_s_2_16m_s_2 1 * 1.0 16- S 2 16- S 2 point cube
+correlator nd_b_16m_s_2_16m_s_3 1 * 1.0 16- S 2 16- S 3 point cube
+correlator nd_b_16m_s_2_16m_s_41 1 * 1.0 16- S 2 16- S 41 point cube
+correlator nd_b_16m_s_2_16m_s_61 1 * 1.0 16- S 2 16- S 61 point cube
+correlator nd_b_16m_s_3_16m_s_2 1 * 1.0 16- S 3 16- S 2 point cube
+correlator nd_b_16m_s_3_16m_s_3 1 * 1.0 16- S 3 16- S 3 point cube
+correlator nd_b_16m_s_3_16m_s_41 1 * 1.0 16- S 3 16- S 41 point cube
+correlator nd_b_16m_s_3_16m_s_61 1 * 1.0 16- S 3 16- S 61 point cube
+correlator nd_b_16m_s_41_16m_s_2 1 * 1.0 16- S 41 16- S 2 point cube
+correlator nd_b_16m_s_41_16m_s_3 1 * 1.0 16- S 41 16- S 3 point cube
+correlator nd_b_16m_s_41_16m_s_41 1 * 1.0 16- S 41 16- S 41 point cube
+correlator nd_b_16m_s_41_16m_s_61 1 * 1.0 16- S 41 16- S 61 point cube
+correlator nd_b_16m_s_61_16m_s_2 1 * 1.0 16- S 61 16- S 2 point cube
+correlator nd_b_16m_s_61_16m_s_3 1 * 1.0 16- S 61 16- S 3 point cube
+correlator nd_b_16m_s_61_16m_s_41 1 * 1.0 16- S 61 16- S 41 point cube
+correlator nd_b_16m_s_61_16m_s_61 1 * 1.0 16- S 61 16- S 61 point cube
+
+#== GBBaryonSpectrum ==
+triplet 4 1 1
+spectrum_request gb_baryon
+quark_content uud
+save_corr_fnal ./bar3pt.01.l96192_rb0144_m0008_t036_p000_xBB_q000_i007_b8_c40239402.coul.cor
+r_offset 0 0 0 36
+momentum 0 0 0 EO EO EO
+spin_taste G5Z-G5Z
+number_of_correlators 32
+correlator nd_b_16p_s_2_16p_s_2 1 * 1.0 16+ S 2 16+ S 2 point cube
+correlator nd_b_16p_s_2_16p_s_3 1 * 1.0 16+ S 2 16+ S 3 point cube
+correlator nd_b_16p_s_2_16p_s_41 1 * 1.0 16+ S 2 16+ S 41 point cube
+correlator nd_b_16p_s_2_16p_s_61 1 * 1.0 16+ S 2 16+ S 61 point cube
+correlator nd_b_16p_s_3_16p_s_2 1 * 1.0 16+ S 3 16+ S 2 point cube
+correlator nd_b_16p_s_3_16p_s_3 1 * 1.0 16+ S 3 16+ S 3 point cube
+correlator nd_b_16p_s_3_16p_s_41 1 * 1.0 16+ S 3 16+ S 41 point cube
+correlator nd_b_16p_s_3_16p_s_61 1 * 1.0 16+ S 3 16+ S 61 point cube
+correlator nd_b_16p_s_41_16p_s_2 1 * 1.0 16+ S 41 16+ S 2 point cube
+correlator nd_b_16p_s_41_16p_s_3 1 * 1.0 16+ S 41 16+ S 3 point cube
+correlator nd_b_16p_s_41_16p_s_41 1 * 1.0 16+ S 41 16+ S 41 point cube
+correlator nd_b_16p_s_41_16p_s_61 1 * 1.0 16+ S 41 16+ S 61 point cube
+correlator nd_b_16p_s_61_16p_s_2 1 * 1.0 16+ S 61 16+ S 2 point cube
+correlator nd_b_16p_s_61_16p_s_3 1 * 1.0 16+ S 61 16+ S 3 point cube
+correlator nd_b_16p_s_61_16p_s_41 1 * 1.0 16+ S 61 16+ S 41 point cube
+correlator nd_b_16p_s_61_16p_s_61 1 * 1.0 16+ S 61 16+ S 61 point cube
+correlator nd_b_16m_s_2_16m_s_2 1 * 1.0 16- S 2 16- S 2 point cube
+correlator nd_b_16m_s_2_16m_s_3 1 * 1.0 16- S 2 16- S 3 point cube
+correlator nd_b_16m_s_2_16m_s_41 1 * 1.0 16- S 2 16- S 41 point cube
+correlator nd_b_16m_s_2_16m_s_61 1 * 1.0 16- S 2 16- S 61 point cube
+correlator nd_b_16m_s_3_16m_s_2 1 * 1.0 16- S 3 16- S 2 point cube
+correlator nd_b_16m_s_3_16m_s_3 1 * 1.0 16- S 3 16- S 3 point cube
+correlator nd_b_16m_s_3_16m_s_41 1 * 1.0 16- S 3 16- S 41 point cube
+correlator nd_b_16m_s_3_16m_s_61 1 * 1.0 16- S 3 16- S 61 point cube
+correlator nd_b_16m_s_41_16m_s_2 1 * 1.0 16- S 41 16- S 2 point cube
+correlator nd_b_16m_s_41_16m_s_3 1 * 1.0 16- S 41 16- S 3 point cube
+correlator nd_b_16m_s_41_16m_s_41 1 * 1.0 16- S 41 16- S 41 point cube
+correlator nd_b_16m_s_41_16m_s_61 1 * 1.0 16- S 41 16- S 61 point cube
+correlator nd_b_16m_s_61_16m_s_2 1 * 1.0 16- S 61 16- S 2 point cube
+correlator nd_b_16m_s_61_16m_s_3 1 * 1.0 16- S 61 16- S 3 point cube
+correlator nd_b_16m_s_61_16m_s_41 1 * 1.0 16- S 61 16- S 41 point cube
+correlator nd_b_16m_s_61_16m_s_61 1 * 1.0 16- S 61 16- S 61 point cube
+
+#== GBBaryonSpectrum ==
+triplet 5 2 2
+spectrum_request gb_baryon
+quark_content uud
+save_corr_fnal ./bar3pt.01.l96192_rb0144_m0008_t036_p000_xBB_q000_i007_b8_c40239402.coul.cor
+r_offset 0 0 0 36
+momentum 0 0 0 EO EO EO
+spin_taste G5Z-G5Z
+number_of_correlators 32
+correlator nd_b_16p_s_2_16p_s_2 1 * 1.0 16+ S 2 16+ S 2 point cube
+correlator nd_b_16p_s_2_16p_s_3 1 * 1.0 16+ S 2 16+ S 3 point cube
+correlator nd_b_16p_s_2_16p_s_41 1 * 1.0 16+ S 2 16+ S 41 point cube
+correlator nd_b_16p_s_2_16p_s_61 1 * 1.0 16+ S 2 16+ S 61 point cube
+correlator nd_b_16p_s_3_16p_s_2 1 * 1.0 16+ S 3 16+ S 2 point cube
+correlator nd_b_16p_s_3_16p_s_3 1 * 1.0 16+ S 3 16+ S 3 point cube
+correlator nd_b_16p_s_3_16p_s_41 1 * 1.0 16+ S 3 16+ S 41 point cube
+correlator nd_b_16p_s_3_16p_s_61 1 * 1.0 16+ S 3 16+ S 61 point cube
+correlator nd_b_16p_s_41_16p_s_2 1 * 1.0 16+ S 41 16+ S 2 point cube
+correlator nd_b_16p_s_41_16p_s_3 1 * 1.0 16+ S 41 16+ S 3 point cube
+correlator nd_b_16p_s_41_16p_s_41 1 * 1.0 16+ S 41 16+ S 41 point cube
+correlator nd_b_16p_s_41_16p_s_61 1 * 1.0 16+ S 41 16+ S 61 point cube
+correlator nd_b_16p_s_61_16p_s_2 1 * 1.0 16+ S 61 16+ S 2 point cube
+correlator nd_b_16p_s_61_16p_s_3 1 * 1.0 16+ S 61 16+ S 3 point cube
+correlator nd_b_16p_s_61_16p_s_41 1 * 1.0 16+ S 61 16+ S 41 point cube
+correlator nd_b_16p_s_61_16p_s_61 1 * 1.0 16+ S 61 16+ S 61 point cube
+correlator nd_b_16m_s_2_16m_s_2 1 * 1.0 16- S 2 16- S 2 point cube
+correlator nd_b_16m_s_2_16m_s_3 1 * 1.0 16- S 2 16- S 3 point cube
+correlator nd_b_16m_s_2_16m_s_41 1 * 1.0 16- S 2 16- S 41 point cube
+correlator nd_b_16m_s_2_16m_s_61 1 * 1.0 16- S 2 16- S 61 point cube
+correlator nd_b_16m_s_3_16m_s_2 1 * 1.0 16- S 3 16- S 2 point cube
+correlator nd_b_16m_s_3_16m_s_3 1 * 1.0 16- S 3 16- S 3 point cube
+correlator nd_b_16m_s_3_16m_s_41 1 * 1.0 16- S 3 16- S 41 point cube
+correlator nd_b_16m_s_3_16m_s_61 1 * 1.0 16- S 3 16- S 61 point cube
+correlator nd_b_16m_s_41_16m_s_2 1 * 1.0 16- S 41 16- S 2 point cube
+correlator nd_b_16m_s_41_16m_s_3 1 * 1.0 16- S 41 16- S 3 point cube
+correlator nd_b_16m_s_41_16m_s_41 1 * 1.0 16- S 41 16- S 41 point cube
+correlator nd_b_16m_s_41_16m_s_61 1 * 1.0 16- S 41 16- S 61 point cube
+correlator nd_b_16m_s_61_16m_s_2 1 * 1.0 16- S 61 16- S 2 point cube
+correlator nd_b_16m_s_61_16m_s_3 1 * 1.0 16- S 61 16- S 3 point cube
+correlator nd_b_16m_s_61_16m_s_41 1 * 1.0 16- S 61 16- S 41 point cube
+correlator nd_b_16m_s_61_16m_s_61 1 * 1.0 16- S 61 16- S 61 point cube
+
+#== GBBaryonSpectrum ==
+triplet 6 0 0
+spectrum_request gb_baryon
+quark_content uud
+save_corr_fnal ./bar3pt.01.l96192_rb0144_m0008_t036_p000_xBB_q000_i008_b8_c40239402.coul.cor
+r_offset 0 0 0 36
+momentum 0 0 0 EO EO EO
+spin_taste G5Z-G5Z
+number_of_correlators 32
+correlator nd_b_16p_s_2_16p_s_2 1 * 1.0 16+ S 2 16+ S 2 point cube
+correlator nd_b_16p_s_2_16p_s_3 1 * 1.0 16+ S 2 16+ S 3 point cube
+correlator nd_b_16p_s_2_16p_s_41 1 * 1.0 16+ S 2 16+ S 41 point cube
+correlator nd_b_16p_s_2_16p_s_61 1 * 1.0 16+ S 2 16+ S 61 point cube
+correlator nd_b_16p_s_3_16p_s_2 1 * 1.0 16+ S 3 16+ S 2 point cube
+correlator nd_b_16p_s_3_16p_s_3 1 * 1.0 16+ S 3 16+ S 3 point cube
+correlator nd_b_16p_s_3_16p_s_41 1 * 1.0 16+ S 3 16+ S 41 point cube
+correlator nd_b_16p_s_3_16p_s_61 1 * 1.0 16+ S 3 16+ S 61 point cube
+correlator nd_b_16p_s_41_16p_s_2 1 * 1.0 16+ S 41 16+ S 2 point cube
+correlator nd_b_16p_s_41_16p_s_3 1 * 1.0 16+ S 41 16+ S 3 point cube
+correlator nd_b_16p_s_41_16p_s_41 1 * 1.0 16+ S 41 16+ S 41 point cube
+correlator nd_b_16p_s_41_16p_s_61 1 * 1.0 16+ S 41 16+ S 61 point cube
+correlator nd_b_16p_s_61_16p_s_2 1 * 1.0 16+ S 61 16+ S 2 point cube
+correlator nd_b_16p_s_61_16p_s_3 1 * 1.0 16+ S 61 16+ S 3 point cube
+correlator nd_b_16p_s_61_16p_s_41 1 * 1.0 16+ S 61 16+ S 41 point cube
+correlator nd_b_16p_s_61_16p_s_61 1 * 1.0 16+ S 61 16+ S 61 point cube
+correlator nd_b_16m_s_2_16m_s_2 1 * 1.0 16- S 2 16- S 2 point cube
+correlator nd_b_16m_s_2_16m_s_3 1 * 1.0 16- S 2 16- S 3 point cube
+correlator nd_b_16m_s_2_16m_s_41 1 * 1.0 16- S 2 16- S 41 point cube
+correlator nd_b_16m_s_2_16m_s_61 1 * 1.0 16- S 2 16- S 61 point cube
+correlator nd_b_16m_s_3_16m_s_2 1 * 1.0 16- S 3 16- S 2 point cube
+correlator nd_b_16m_s_3_16m_s_3 1 * 1.0 16- S 3 16- S 3 point cube
+correlator nd_b_16m_s_3_16m_s_41 1 * 1.0 16- S 3 16- S 41 point cube
+correlator nd_b_16m_s_3_16m_s_61 1 * 1.0 16- S 3 16- S 61 point cube
+correlator nd_b_16m_s_41_16m_s_2 1 * 1.0 16- S 41 16- S 2 point cube
+correlator nd_b_16m_s_41_16m_s_3 1 * 1.0 16- S 41 16- S 3 point cube
+correlator nd_b_16m_s_41_16m_s_41 1 * 1.0 16- S 41 16- S 41 point cube
+correlator nd_b_16m_s_41_16m_s_61 1 * 1.0 16- S 41 16- S 61 point cube
+correlator nd_b_16m_s_61_16m_s_2 1 * 1.0 16- S 61 16- S 2 point cube
+correlator nd_b_16m_s_61_16m_s_3 1 * 1.0 16- S 61 16- S 3 point cube
+correlator nd_b_16m_s_61_16m_s_41 1 * 1.0 16- S 61 16- S 41 point cube
+correlator nd_b_16m_s_61_16m_s_61 1 * 1.0 16- S 61 16- S 61 point cube
+
+#== GBBaryonSpectrum ==
+triplet 7 1 1
+spectrum_request gb_baryon
+quark_content uud
+save_corr_fnal ./bar3pt.01.l96192_rb0144_m0008_t036_p000_xBB_q000_i008_b8_c40239402.coul.cor
+r_offset 0 0 0 36
+momentum 0 0 0 EO EO EO
+spin_taste G5Z-G5Z
+number_of_correlators 32
+correlator nd_b_16p_s_2_16p_s_2 1 * 1.0 16+ S 2 16+ S 2 point cube
+correlator nd_b_16p_s_2_16p_s_3 1 * 1.0 16+ S 2 16+ S 3 point cube
+correlator nd_b_16p_s_2_16p_s_41 1 * 1.0 16+ S 2 16+ S 41 point cube
+correlator nd_b_16p_s_2_16p_s_61 1 * 1.0 16+ S 2 16+ S 61 point cube
+correlator nd_b_16p_s_3_16p_s_2 1 * 1.0 16+ S 3 16+ S 2 point cube
+correlator nd_b_16p_s_3_16p_s_3 1 * 1.0 16+ S 3 16+ S 3 point cube
+correlator nd_b_16p_s_3_16p_s_41 1 * 1.0 16+ S 3 16+ S 41 point cube
+correlator nd_b_16p_s_3_16p_s_61 1 * 1.0 16+ S 3 16+ S 61 point cube
+correlator nd_b_16p_s_41_16p_s_2 1 * 1.0 16+ S 41 16+ S 2 point cube
+correlator nd_b_16p_s_41_16p_s_3 1 * 1.0 16+ S 41 16+ S 3 point cube
+correlator nd_b_16p_s_41_16p_s_41 1 * 1.0 16+ S 41 16+ S 41 point cube
+correlator nd_b_16p_s_41_16p_s_61 1 * 1.0 16+ S 41 16+ S 61 point cube
+correlator nd_b_16p_s_61_16p_s_2 1 * 1.0 16+ S 61 16+ S 2 point cube
+correlator nd_b_16p_s_61_16p_s_3 1 * 1.0 16+ S 61 16+ S 3 point cube
+correlator nd_b_16p_s_61_16p_s_41 1 * 1.0 16+ S 61 16+ S 41 point cube
+correlator nd_b_16p_s_61_16p_s_61 1 * 1.0 16+ S 61 16+ S 61 point cube
+correlator nd_b_16m_s_2_16m_s_2 1 * 1.0 16- S 2 16- S 2 point cube
+correlator nd_b_16m_s_2_16m_s_3 1 * 1.0 16- S 2 16- S 3 point cube
+correlator nd_b_16m_s_2_16m_s_41 1 * 1.0 16- S 2 16- S 41 point cube
+correlator nd_b_16m_s_2_16m_s_61 1 * 1.0 16- S 2 16- S 61 point cube
+correlator nd_b_16m_s_3_16m_s_2 1 * 1.0 16- S 3 16- S 2 point cube
+correlator nd_b_16m_s_3_16m_s_3 1 * 1.0 16- S 3 16- S 3 point cube
+correlator nd_b_16m_s_3_16m_s_41 1 * 1.0 16- S 3 16- S 41 point cube
+correlator nd_b_16m_s_3_16m_s_61 1 * 1.0 16- S 3 16- S 61 point cube
+correlator nd_b_16m_s_41_16m_s_2 1 * 1.0 16- S 41 16- S 2 point cube
+correlator nd_b_16m_s_41_16m_s_3 1 * 1.0 16- S 41 16- S 3 point cube
+correlator nd_b_16m_s_41_16m_s_41 1 * 1.0 16- S 41 16- S 41 point cube
+correlator nd_b_16m_s_41_16m_s_61 1 * 1.0 16- S 41 16- S 61 point cube
+correlator nd_b_16m_s_61_16m_s_2 1 * 1.0 16- S 61 16- S 2 point cube
+correlator nd_b_16m_s_61_16m_s_3 1 * 1.0 16- S 61 16- S 3 point cube
+correlator nd_b_16m_s_61_16m_s_41 1 * 1.0 16- S 61 16- S 41 point cube
+correlator nd_b_16m_s_61_16m_s_61 1 * 1.0 16- S 61 16- S 61 point cube
+
+#== GBBaryonSpectrum ==
+triplet 8 2 2
+spectrum_request gb_baryon
+quark_content uud
+save_corr_fnal ./bar3pt.01.l96192_rb0144_m0008_t036_p000_xBB_q000_i008_b8_c40239402.coul.cor
+r_offset 0 0 0 36
+momentum 0 0 0 EO EO EO
+spin_taste G5Z-G5Z
+number_of_correlators 32
+correlator nd_b_16p_s_2_16p_s_2 1 * 1.0 16+ S 2 16+ S 2 point cube
+correlator nd_b_16p_s_2_16p_s_3 1 * 1.0 16+ S 2 16+ S 3 point cube
+correlator nd_b_16p_s_2_16p_s_41 1 * 1.0 16+ S 2 16+ S 41 point cube
+correlator nd_b_16p_s_2_16p_s_61 1 * 1.0 16+ S 2 16+ S 61 point cube
+correlator nd_b_16p_s_3_16p_s_2 1 * 1.0 16+ S 3 16+ S 2 point cube
+correlator nd_b_16p_s_3_16p_s_3 1 * 1.0 16+ S 3 16+ S 3 point cube
+correlator nd_b_16p_s_3_16p_s_41 1 * 1.0 16+ S 3 16+ S 41 point cube
+correlator nd_b_16p_s_3_16p_s_61 1 * 1.0 16+ S 3 16+ S 61 point cube
+correlator nd_b_16p_s_41_16p_s_2 1 * 1.0 16+ S 41 16+ S 2 point cube
+correlator nd_b_16p_s_41_16p_s_3 1 * 1.0 16+ S 41 16+ S 3 point cube
+correlator nd_b_16p_s_41_16p_s_41 1 * 1.0 16+ S 41 16+ S 41 point cube
+correlator nd_b_16p_s_41_16p_s_61 1 * 1.0 16+ S 41 16+ S 61 point cube
+correlator nd_b_16p_s_61_16p_s_2 1 * 1.0 16+ S 61 16+ S 2 point cube
+correlator nd_b_16p_s_61_16p_s_3 1 * 1.0 16+ S 61 16+ S 3 point cube
+correlator nd_b_16p_s_61_16p_s_41 1 * 1.0 16+ S 61 16+ S 41 point cube
+correlator nd_b_16p_s_61_16p_s_61 1 * 1.0 16+ S 61 16+ S 61 point cube
+correlator nd_b_16m_s_2_16m_s_2 1 * 1.0 16- S 2 16- S 2 point cube
+correlator nd_b_16m_s_2_16m_s_3 1 * 1.0 16- S 2 16- S 3 point cube
+correlator nd_b_16m_s_2_16m_s_41 1 * 1.0 16- S 2 16- S 41 point cube
+correlator nd_b_16m_s_2_16m_s_61 1 * 1.0 16- S 2 16- S 61 point cube
+correlator nd_b_16m_s_3_16m_s_2 1 * 1.0 16- S 3 16- S 2 point cube
+correlator nd_b_16m_s_3_16m_s_3 1 * 1.0 16- S 3 16- S 3 point cube
+correlator nd_b_16m_s_3_16m_s_41 1 * 1.0 16- S 3 16- S 41 point cube
+correlator nd_b_16m_s_3_16m_s_61 1 * 1.0 16- S 3 16- S 61 point cube
+correlator nd_b_16m_s_41_16m_s_2 1 * 1.0 16- S 41 16- S 2 point cube
+correlator nd_b_16m_s_41_16m_s_3 1 * 1.0 16- S 41 16- S 3 point cube
+correlator nd_b_16m_s_41_16m_s_41 1 * 1.0 16- S 41 16- S 41 point cube
+correlator nd_b_16m_s_41_16m_s_61 1 * 1.0 16- S 41 16- S 61 point cube
+correlator nd_b_16m_s_61_16m_s_2 1 * 1.0 16- S 61 16- S 2 point cube
+correlator nd_b_16m_s_61_16m_s_3 1 * 1.0 16- S 61 16- S 3 point cube
+correlator nd_b_16m_s_61_16m_s_41 1 * 1.0 16- S 61 16- S 41 point cube
+correlator nd_b_16m_s_61_16m_s_61 1 * 1.0 16- S 61 16- S 61 point cube
+
+#== GBBaryonSpectrum ==
+triplet 9 0 0
+spectrum_request gb_baryon
+quark_content uud
+save_corr_fnal ./bar3pt.01.l96192_rb0144_m0008_t036_p000_xBB_q000_i009_b8_c40239402.coul.cor
+r_offset 0 0 0 36
+momentum 0 0 0 EO EO EO
+spin_taste G5Z-G5Z
+number_of_correlators 32
+correlator nd_b_16p_s_2_16p_s_2 1 * 1.0 16+ S 2 16+ S 2 point cube
+correlator nd_b_16p_s_2_16p_s_3 1 * 1.0 16+ S 2 16+ S 3 point cube
+correlator nd_b_16p_s_2_16p_s_41 1 * 1.0 16+ S 2 16+ S 41 point cube
+correlator nd_b_16p_s_2_16p_s_61 1 * 1.0 16+ S 2 16+ S 61 point cube
+correlator nd_b_16p_s_3_16p_s_2 1 * 1.0 16+ S 3 16+ S 2 point cube
+correlator nd_b_16p_s_3_16p_s_3 1 * 1.0 16+ S 3 16+ S 3 point cube
+correlator nd_b_16p_s_3_16p_s_41 1 * 1.0 16+ S 3 16+ S 41 point cube
+correlator nd_b_16p_s_3_16p_s_61 1 * 1.0 16+ S 3 16+ S 61 point cube
+correlator nd_b_16p_s_41_16p_s_2 1 * 1.0 16+ S 41 16+ S 2 point cube
+correlator nd_b_16p_s_41_16p_s_3 1 * 1.0 16+ S 41 16+ S 3 point cube
+correlator nd_b_16p_s_41_16p_s_41 1 * 1.0 16+ S 41 16+ S 41 point cube
+correlator nd_b_16p_s_41_16p_s_61 1 * 1.0 16+ S 41 16+ S 61 point cube
+correlator nd_b_16p_s_61_16p_s_2 1 * 1.0 16+ S 61 16+ S 2 point cube
+correlator nd_b_16p_s_61_16p_s_3 1 * 1.0 16+ S 61 16+ S 3 point cube
+correlator nd_b_16p_s_61_16p_s_41 1 * 1.0 16+ S 61 16+ S 41 point cube
+correlator nd_b_16p_s_61_16p_s_61 1 * 1.0 16+ S 61 16+ S 61 point cube
+correlator nd_b_16m_s_2_16m_s_2 1 * 1.0 16- S 2 16- S 2 point cube
+correlator nd_b_16m_s_2_16m_s_3 1 * 1.0 16- S 2 16- S 3 point cube
+correlator nd_b_16m_s_2_16m_s_41 1 * 1.0 16- S 2 16- S 41 point cube
+correlator nd_b_16m_s_2_16m_s_61 1 * 1.0 16- S 2 16- S 61 point cube
+correlator nd_b_16m_s_3_16m_s_2 1 * 1.0 16- S 3 16- S 2 point cube
+correlator nd_b_16m_s_3_16m_s_3 1 * 1.0 16- S 3 16- S 3 point cube
+correlator nd_b_16m_s_3_16m_s_41 1 * 1.0 16- S 3 16- S 41 point cube
+correlator nd_b_16m_s_3_16m_s_61 1 * 1.0 16- S 3 16- S 61 point cube
+correlator nd_b_16m_s_41_16m_s_2 1 * 1.0 16- S 41 16- S 2 point cube
+correlator nd_b_16m_s_41_16m_s_3 1 * 1.0 16- S 41 16- S 3 point cube
+correlator nd_b_16m_s_41_16m_s_41 1 * 1.0 16- S 41 16- S 41 point cube
+correlator nd_b_16m_s_41_16m_s_61 1 * 1.0 16- S 41 16- S 61 point cube
+correlator nd_b_16m_s_61_16m_s_2 1 * 1.0 16- S 61 16- S 2 point cube
+correlator nd_b_16m_s_61_16m_s_3 1 * 1.0 16- S 61 16- S 3 point cube
+correlator nd_b_16m_s_61_16m_s_41 1 * 1.0 16- S 61 16- S 41 point cube
+correlator nd_b_16m_s_61_16m_s_61 1 * 1.0 16- S 61 16- S 61 point cube
+
+#== GBBaryonSpectrum ==
+triplet 10 1 1
+spectrum_request gb_baryon
+quark_content uud
+save_corr_fnal ./bar3pt.01.l96192_rb0144_m0008_t036_p000_xBB_q000_i009_b8_c40239402.coul.cor
+r_offset 0 0 0 36
+momentum 0 0 0 EO EO EO
+spin_taste G5Z-G5Z
+number_of_correlators 32
+correlator nd_b_16p_s_2_16p_s_2 1 * 1.0 16+ S 2 16+ S 2 point cube
+correlator nd_b_16p_s_2_16p_s_3 1 * 1.0 16+ S 2 16+ S 3 point cube
+correlator nd_b_16p_s_2_16p_s_41 1 * 1.0 16+ S 2 16+ S 41 point cube
+correlator nd_b_16p_s_2_16p_s_61 1 * 1.0 16+ S 2 16+ S 61 point cube
+correlator nd_b_16p_s_3_16p_s_2 1 * 1.0 16+ S 3 16+ S 2 point cube
+correlator nd_b_16p_s_3_16p_s_3 1 * 1.0 16+ S 3 16+ S 3 point cube
+correlator nd_b_16p_s_3_16p_s_41 1 * 1.0 16+ S 3 16+ S 41 point cube
+correlator nd_b_16p_s_3_16p_s_61 1 * 1.0 16+ S 3 16+ S 61 point cube
+correlator nd_b_16p_s_41_16p_s_2 1 * 1.0 16+ S 41 16+ S 2 point cube
+correlator nd_b_16p_s_41_16p_s_3 1 * 1.0 16+ S 41 16+ S 3 point cube
+correlator nd_b_16p_s_41_16p_s_41 1 * 1.0 16+ S 41 16+ S 41 point cube
+correlator nd_b_16p_s_41_16p_s_61 1 * 1.0 16+ S 41 16+ S 61 point cube
+correlator nd_b_16p_s_61_16p_s_2 1 * 1.0 16+ S 61 16+ S 2 point cube
+correlator nd_b_16p_s_61_16p_s_3 1 * 1.0 16+ S 61 16+ S 3 point cube
+correlator nd_b_16p_s_61_16p_s_41 1 * 1.0 16+ S 61 16+ S 41 point cube
+correlator nd_b_16p_s_61_16p_s_61 1 * 1.0 16+ S 61 16+ S 61 point cube
+correlator nd_b_16m_s_2_16m_s_2 1 * 1.0 16- S 2 16- S 2 point cube
+correlator nd_b_16m_s_2_16m_s_3 1 * 1.0 16- S 2 16- S 3 point cube
+correlator nd_b_16m_s_2_16m_s_41 1 * 1.0 16- S 2 16- S 41 point cube
+correlator nd_b_16m_s_2_16m_s_61 1 * 1.0 16- S 2 16- S 61 point cube
+correlator nd_b_16m_s_3_16m_s_2 1 * 1.0 16- S 3 16- S 2 point cube
+correlator nd_b_16m_s_3_16m_s_3 1 * 1.0 16- S 3 16- S 3 point cube
+correlator nd_b_16m_s_3_16m_s_41 1 * 1.0 16- S 3 16- S 41 point cube
+correlator nd_b_16m_s_3_16m_s_61 1 * 1.0 16- S 3 16- S 61 point cube
+correlator nd_b_16m_s_41_16m_s_2 1 * 1.0 16- S 41 16- S 2 point cube
+correlator nd_b_16m_s_41_16m_s_3 1 * 1.0 16- S 41 16- S 3 point cube
+correlator nd_b_16m_s_41_16m_s_41 1 * 1.0 16- S 41 16- S 41 point cube
+correlator nd_b_16m_s_41_16m_s_61 1 * 1.0 16- S 41 16- S 61 point cube
+correlator nd_b_16m_s_61_16m_s_2 1 * 1.0 16- S 61 16- S 2 point cube
+correlator nd_b_16m_s_61_16m_s_3 1 * 1.0 16- S 61 16- S 3 point cube
+correlator nd_b_16m_s_61_16m_s_41 1 * 1.0 16- S 61 16- S 41 point cube
+correlator nd_b_16m_s_61_16m_s_61 1 * 1.0 16- S 61 16- S 61 point cube
+
+#== GBBaryonSpectrum ==
+triplet 11 2 2
+spectrum_request gb_baryon
+quark_content uud
+save_corr_fnal ./bar3pt.01.l96192_rb0144_m0008_t036_p000_xBB_q000_i009_b8_c40239402.coul.cor
+r_offset 0 0 0 36
+momentum 0 0 0 EO EO EO
+spin_taste G5Z-G5Z
+number_of_correlators 32
+correlator nd_b_16p_s_2_16p_s_2 1 * 1.0 16+ S 2 16+ S 2 point cube
+correlator nd_b_16p_s_2_16p_s_3 1 * 1.0 16+ S 2 16+ S 3 point cube
+correlator nd_b_16p_s_2_16p_s_41 1 * 1.0 16+ S 2 16+ S 41 point cube
+correlator nd_b_16p_s_2_16p_s_61 1 * 1.0 16+ S 2 16+ S 61 point cube
+correlator nd_b_16p_s_3_16p_s_2 1 * 1.0 16+ S 3 16+ S 2 point cube
+correlator nd_b_16p_s_3_16p_s_3 1 * 1.0 16+ S 3 16+ S 3 point cube
+correlator nd_b_16p_s_3_16p_s_41 1 * 1.0 16+ S 3 16+ S 41 point cube
+correlator nd_b_16p_s_3_16p_s_61 1 * 1.0 16+ S 3 16+ S 61 point cube
+correlator nd_b_16p_s_41_16p_s_2 1 * 1.0 16+ S 41 16+ S 2 point cube
+correlator nd_b_16p_s_41_16p_s_3 1 * 1.0 16+ S 41 16+ S 3 point cube
+correlator nd_b_16p_s_41_16p_s_41 1 * 1.0 16+ S 41 16+ S 41 point cube
+correlator nd_b_16p_s_41_16p_s_61 1 * 1.0 16+ S 41 16+ S 61 point cube
+correlator nd_b_16p_s_61_16p_s_2 1 * 1.0 16+ S 61 16+ S 2 point cube
+correlator nd_b_16p_s_61_16p_s_3 1 * 1.0 16+ S 61 16+ S 3 point cube
+correlator nd_b_16p_s_61_16p_s_41 1 * 1.0 16+ S 61 16+ S 41 point cube
+correlator nd_b_16p_s_61_16p_s_61 1 * 1.0 16+ S 61 16+ S 61 point cube
+correlator nd_b_16m_s_2_16m_s_2 1 * 1.0 16- S 2 16- S 2 point cube
+correlator nd_b_16m_s_2_16m_s_3 1 * 1.0 16- S 2 16- S 3 point cube
+correlator nd_b_16m_s_2_16m_s_41 1 * 1.0 16- S 2 16- S 41 point cube
+correlator nd_b_16m_s_2_16m_s_61 1 * 1.0 16- S 2 16- S 61 point cube
+correlator nd_b_16m_s_3_16m_s_2 1 * 1.0 16- S 3 16- S 2 point cube
+correlator nd_b_16m_s_3_16m_s_3 1 * 1.0 16- S 3 16- S 3 point cube
+correlator nd_b_16m_s_3_16m_s_41 1 * 1.0 16- S 3 16- S 41 point cube
+correlator nd_b_16m_s_3_16m_s_61 1 * 1.0 16- S 3 16- S 61 point cube
+correlator nd_b_16m_s_41_16m_s_2 1 * 1.0 16- S 41 16- S 2 point cube
+correlator nd_b_16m_s_41_16m_s_3 1 * 1.0 16- S 41 16- S 3 point cube
+correlator nd_b_16m_s_41_16m_s_41 1 * 1.0 16- S 41 16- S 41 point cube
+correlator nd_b_16m_s_41_16m_s_61 1 * 1.0 16- S 41 16- S 61 point cube
+correlator nd_b_16m_s_61_16m_s_2 1 * 1.0 16- S 61 16- S 2 point cube
+correlator nd_b_16m_s_61_16m_s_3 1 * 1.0 16- S 61 16- S 3 point cube
+correlator nd_b_16m_s_61_16m_s_41 1 * 1.0 16- S 61 16- S 41 point cube
+correlator nd_b_16m_s_61_16m_s_61 1 * 1.0 16- S 61 16- S 61 point cube
+
+#== GBBaryonSpectrum ==
+triplet 12 0 0
+spectrum_request gb_baryon
+quark_content uud
+save_corr_fnal ./bar3pt.01.l96192_rb0144_m0008_t036_p000_xBB_q000_i010_b8_c40239402.coul.cor
+r_offset 0 0 0 36
+momentum 0 0 0 EO EO EO
+spin_taste G5Z-G5Z
+number_of_correlators 32
+correlator nd_b_16p_s_2_16p_s_2 1 * 1.0 16+ S 2 16+ S 2 point cube
+correlator nd_b_16p_s_2_16p_s_3 1 * 1.0 16+ S 2 16+ S 3 point cube
+correlator nd_b_16p_s_2_16p_s_41 1 * 1.0 16+ S 2 16+ S 41 point cube
+correlator nd_b_16p_s_2_16p_s_61 1 * 1.0 16+ S 2 16+ S 61 point cube
+correlator nd_b_16p_s_3_16p_s_2 1 * 1.0 16+ S 3 16+ S 2 point cube
+correlator nd_b_16p_s_3_16p_s_3 1 * 1.0 16+ S 3 16+ S 3 point cube
+correlator nd_b_16p_s_3_16p_s_41 1 * 1.0 16+ S 3 16+ S 41 point cube
+correlator nd_b_16p_s_3_16p_s_61 1 * 1.0 16+ S 3 16+ S 61 point cube
+correlator nd_b_16p_s_41_16p_s_2 1 * 1.0 16+ S 41 16+ S 2 point cube
+correlator nd_b_16p_s_41_16p_s_3 1 * 1.0 16+ S 41 16+ S 3 point cube
+correlator nd_b_16p_s_41_16p_s_41 1 * 1.0 16+ S 41 16+ S 41 point cube
+correlator nd_b_16p_s_41_16p_s_61 1 * 1.0 16+ S 41 16+ S 61 point cube
+correlator nd_b_16p_s_61_16p_s_2 1 * 1.0 16+ S 61 16+ S 2 point cube
+correlator nd_b_16p_s_61_16p_s_3 1 * 1.0 16+ S 61 16+ S 3 point cube
+correlator nd_b_16p_s_61_16p_s_41 1 * 1.0 16+ S 61 16+ S 41 point cube
+correlator nd_b_16p_s_61_16p_s_61 1 * 1.0 16+ S 61 16+ S 61 point cube
+correlator nd_b_16m_s_2_16m_s_2 1 * 1.0 16- S 2 16- S 2 point cube
+correlator nd_b_16m_s_2_16m_s_3 1 * 1.0 16- S 2 16- S 3 point cube
+correlator nd_b_16m_s_2_16m_s_41 1 * 1.0 16- S 2 16- S 41 point cube
+correlator nd_b_16m_s_2_16m_s_61 1 * 1.0 16- S 2 16- S 61 point cube
+correlator nd_b_16m_s_3_16m_s_2 1 * 1.0 16- S 3 16- S 2 point cube
+correlator nd_b_16m_s_3_16m_s_3 1 * 1.0 16- S 3 16- S 3 point cube
+correlator nd_b_16m_s_3_16m_s_41 1 * 1.0 16- S 3 16- S 41 point cube
+correlator nd_b_16m_s_3_16m_s_61 1 * 1.0 16- S 3 16- S 61 point cube
+correlator nd_b_16m_s_41_16m_s_2 1 * 1.0 16- S 41 16- S 2 point cube
+correlator nd_b_16m_s_41_16m_s_3 1 * 1.0 16- S 41 16- S 3 point cube
+correlator nd_b_16m_s_41_16m_s_41 1 * 1.0 16- S 41 16- S 41 point cube
+correlator nd_b_16m_s_41_16m_s_61 1 * 1.0 16- S 41 16- S 61 point cube
+correlator nd_b_16m_s_61_16m_s_2 1 * 1.0 16- S 61 16- S 2 point cube
+correlator nd_b_16m_s_61_16m_s_3 1 * 1.0 16- S 61 16- S 3 point cube
+correlator nd_b_16m_s_61_16m_s_41 1 * 1.0 16- S 61 16- S 41 point cube
+correlator nd_b_16m_s_61_16m_s_61 1 * 1.0 16- S 61 16- S 61 point cube
+
+#== GBBaryonSpectrum ==
+triplet 13 1 1
+spectrum_request gb_baryon
+quark_content uud
+save_corr_fnal ./bar3pt.01.l96192_rb0144_m0008_t036_p000_xBB_q000_i010_b8_c40239402.coul.cor
+r_offset 0 0 0 36
+momentum 0 0 0 EO EO EO
+spin_taste G5Z-G5Z
+number_of_correlators 32
+correlator nd_b_16p_s_2_16p_s_2 1 * 1.0 16+ S 2 16+ S 2 point cube
+correlator nd_b_16p_s_2_16p_s_3 1 * 1.0 16+ S 2 16+ S 3 point cube
+correlator nd_b_16p_s_2_16p_s_41 1 * 1.0 16+ S 2 16+ S 41 point cube
+correlator nd_b_16p_s_2_16p_s_61 1 * 1.0 16+ S 2 16+ S 61 point cube
+correlator nd_b_16p_s_3_16p_s_2 1 * 1.0 16+ S 3 16+ S 2 point cube
+correlator nd_b_16p_s_3_16p_s_3 1 * 1.0 16+ S 3 16+ S 3 point cube
+correlator nd_b_16p_s_3_16p_s_41 1 * 1.0 16+ S 3 16+ S 41 point cube
+correlator nd_b_16p_s_3_16p_s_61 1 * 1.0 16+ S 3 16+ S 61 point cube
+correlator nd_b_16p_s_41_16p_s_2 1 * 1.0 16+ S 41 16+ S 2 point cube
+correlator nd_b_16p_s_41_16p_s_3 1 * 1.0 16+ S 41 16+ S 3 point cube
+correlator nd_b_16p_s_41_16p_s_41 1 * 1.0 16+ S 41 16+ S 41 point cube
+correlator nd_b_16p_s_41_16p_s_61 1 * 1.0 16+ S 41 16+ S 61 point cube
+correlator nd_b_16p_s_61_16p_s_2 1 * 1.0 16+ S 61 16+ S 2 point cube
+correlator nd_b_16p_s_61_16p_s_3 1 * 1.0 16+ S 61 16+ S 3 point cube
+correlator nd_b_16p_s_61_16p_s_41 1 * 1.0 16+ S 61 16+ S 41 point cube
+correlator nd_b_16p_s_61_16p_s_61 1 * 1.0 16+ S 61 16+ S 61 point cube
+correlator nd_b_16m_s_2_16m_s_2 1 * 1.0 16- S 2 16- S 2 point cube
+correlator nd_b_16m_s_2_16m_s_3 1 * 1.0 16- S 2 16- S 3 point cube
+correlator nd_b_16m_s_2_16m_s_41 1 * 1.0 16- S 2 16- S 41 point cube
+correlator nd_b_16m_s_2_16m_s_61 1 * 1.0 16- S 2 16- S 61 point cube
+correlator nd_b_16m_s_3_16m_s_2 1 * 1.0 16- S 3 16- S 2 point cube
+correlator nd_b_16m_s_3_16m_s_3 1 * 1.0 16- S 3 16- S 3 point cube
+correlator nd_b_16m_s_3_16m_s_41 1 * 1.0 16- S 3 16- S 41 point cube
+correlator nd_b_16m_s_3_16m_s_61 1 * 1.0 16- S 3 16- S 61 point cube
+correlator nd_b_16m_s_41_16m_s_2 1 * 1.0 16- S 41 16- S 2 point cube
+correlator nd_b_16m_s_41_16m_s_3 1 * 1.0 16- S 41 16- S 3 point cube
+correlator nd_b_16m_s_41_16m_s_41 1 * 1.0 16- S 41 16- S 41 point cube
+correlator nd_b_16m_s_41_16m_s_61 1 * 1.0 16- S 41 16- S 61 point cube
+correlator nd_b_16m_s_61_16m_s_2 1 * 1.0 16- S 61 16- S 2 point cube
+correlator nd_b_16m_s_61_16m_s_3 1 * 1.0 16- S 61 16- S 3 point cube
+correlator nd_b_16m_s_61_16m_s_41 1 * 1.0 16- S 61 16- S 41 point cube
+correlator nd_b_16m_s_61_16m_s_61 1 * 1.0 16- S 61 16- S 61 point cube
+
+#== GBBaryonSpectrum ==
+triplet 14 2 2
+spectrum_request gb_baryon
+quark_content uud
+save_corr_fnal ./bar3pt.01.l96192_rb0144_m0008_t036_p000_xBB_q000_i010_b8_c40239402.coul.cor
+r_offset 0 0 0 36
+momentum 0 0 0 EO EO EO
+spin_taste G5Z-G5Z
+number_of_correlators 32
+correlator nd_b_16p_s_2_16p_s_2 1 * 1.0 16+ S 2 16+ S 2 point cube
+correlator nd_b_16p_s_2_16p_s_3 1 * 1.0 16+ S 2 16+ S 3 point cube
+correlator nd_b_16p_s_2_16p_s_41 1 * 1.0 16+ S 2 16+ S 41 point cube
+correlator nd_b_16p_s_2_16p_s_61 1 * 1.0 16+ S 2 16+ S 61 point cube
+correlator nd_b_16p_s_3_16p_s_2 1 * 1.0 16+ S 3 16+ S 2 point cube
+correlator nd_b_16p_s_3_16p_s_3 1 * 1.0 16+ S 3 16+ S 3 point cube
+correlator nd_b_16p_s_3_16p_s_41 1 * 1.0 16+ S 3 16+ S 41 point cube
+correlator nd_b_16p_s_3_16p_s_61 1 * 1.0 16+ S 3 16+ S 61 point cube
+correlator nd_b_16p_s_41_16p_s_2 1 * 1.0 16+ S 41 16+ S 2 point cube
+correlator nd_b_16p_s_41_16p_s_3 1 * 1.0 16+ S 41 16+ S 3 point cube
+correlator nd_b_16p_s_41_16p_s_41 1 * 1.0 16+ S 41 16+ S 41 point cube
+correlator nd_b_16p_s_41_16p_s_61 1 * 1.0 16+ S 41 16+ S 61 point cube
+correlator nd_b_16p_s_61_16p_s_2 1 * 1.0 16+ S 61 16+ S 2 point cube
+correlator nd_b_16p_s_61_16p_s_3 1 * 1.0 16+ S 61 16+ S 3 point cube
+correlator nd_b_16p_s_61_16p_s_41 1 * 1.0 16+ S 61 16+ S 41 point cube
+correlator nd_b_16p_s_61_16p_s_61 1 * 1.0 16+ S 61 16+ S 61 point cube
+correlator nd_b_16m_s_2_16m_s_2 1 * 1.0 16- S 2 16- S 2 point cube
+correlator nd_b_16m_s_2_16m_s_3 1 * 1.0 16- S 2 16- S 3 point cube
+correlator nd_b_16m_s_2_16m_s_41 1 * 1.0 16- S 2 16- S 41 point cube
+correlator nd_b_16m_s_2_16m_s_61 1 * 1.0 16- S 2 16- S 61 point cube
+correlator nd_b_16m_s_3_16m_s_2 1 * 1.0 16- S 3 16- S 2 point cube
+correlator nd_b_16m_s_3_16m_s_3 1 * 1.0 16- S 3 16- S 3 point cube
+correlator nd_b_16m_s_3_16m_s_41 1 * 1.0 16- S 3 16- S 41 point cube
+correlator nd_b_16m_s_3_16m_s_61 1 * 1.0 16- S 3 16- S 61 point cube
+correlator nd_b_16m_s_41_16m_s_2 1 * 1.0 16- S 41 16- S 2 point cube
+correlator nd_b_16m_s_41_16m_s_3 1 * 1.0 16- S 41 16- S 3 point cube
+correlator nd_b_16m_s_41_16m_s_41 1 * 1.0 16- S 41 16- S 41 point cube
+correlator nd_b_16m_s_41_16m_s_61 1 * 1.0 16- S 41 16- S 61 point cube
+correlator nd_b_16m_s_61_16m_s_2 1 * 1.0 16- S 61 16- S 2 point cube
+correlator nd_b_16m_s_61_16m_s_3 1 * 1.0 16- S 61 16- S 3 point cube
+correlator nd_b_16m_s_61_16m_s_41 1 * 1.0 16- S 61 16- S 41 point cube
+correlator nd_b_16m_s_61_16m_s_61 1 * 1.0 16- S 61 16- S 61 point cube
