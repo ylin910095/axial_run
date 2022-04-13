@@ -50,7 +50,7 @@ Do the following for any new production runs:
 3. Read `slurm_template.sh` carefully to ensure everything is fine. You might need to change `mpirun` to `srun` or other commands depending on the system documentation. Note the scratch directory is automatically removed after each job via `rm -rf ${jobscratchdir}`, so do not store anything important in it (or you can comment out the line and delete them manually later).
 
 4. Finally, stars are aligned for job submission, well, almost. You might want to do a sanity check first. The main file we are using is, well, `main.py`. It has the usage
-5. 
+ 
     ```console
     foo@bar:~/axial_run$ python main.py
     main.py usage: db_name slurm_template [debug]
