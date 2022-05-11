@@ -9,6 +9,7 @@ from MILCprompts.calcNaikEps import *
 from MILCprompts.nameFormat import *
 import sys
 #from copy import deepcopy
+from run_db.ensemble_db import *
 
 # VERY IMPORTANT: use python2.7 or 
 # the tsrc location is NOT reproducible
