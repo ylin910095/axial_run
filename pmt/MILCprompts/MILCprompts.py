@@ -1,7 +1,7 @@
 import sys
 import textwrap
 from Cheetah.Template import Template
-from nameFormat import *
+from MILCprompts.nameFormat import *
 
 def base36(n):
     """Convert a positive integer to a base36 string."""
@@ -2094,9 +2094,8 @@ class GBBaryonSpectrum:
 
 class GBBaryon2pt:
     """A Golterman-Bailey baryon 2-point function."""
-    _Template = """correlator ${prefix} #echo ' '.join(map(str,$norm))# $gtsc $si_src $src $gtsk $si_snk $snk $snktie $corner"""
-    #def __init__(self,prefix,norm,gts,si_src,src,si_snk,snk,corner=None):
-    def __init__(self,prefix,norm,gtsc,si_src,src,gtsk,si_snk,snk,snktie,corner):
+    _Template = """correlator ${prefix} #echo ' '.join(map(str,$norm))# $gtsc $si_src $src $gtsk $si_snk $snk $snkdisp $snktie $corner"""
+    def __init__(self,prefix,norm,gtsc,si_src,src,gtsk,si_snk,snk,snkdisp,snktie,corner):
         self._classType = self.__class__.__name__
         self._objectID = self._classType+'_'+base36(id(self))
         self.prefix = prefix
@@ -2108,6 +2107,7 @@ class GBBaryon2pt:
         self.si_snk = si_snk
         self.src = src
         self.snk = snk
+        self.snkdisp = snkdisp
         self.snktie = snktie
         if not(corner is None):
          self.corner = corner

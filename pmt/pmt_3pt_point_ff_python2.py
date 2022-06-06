@@ -2,7 +2,6 @@ import yaml, sys, random
 import numpy as np
 import os.path
 import random
-import hashlib
 from MILCprompts.MILCprompts import *
 from MILCprompts.calcNaikEps import *
 from MILCprompts.nameFormat import *
@@ -13,23 +12,14 @@ sys.path.append(parent_fp)
 from run_db.ensemble_db import *
 
 
-## VERY IMPORTANT: use python2.7 or 
-## the tsrc location is NOT reproducible
-## see https://stackoverflow.com/questions/40137072/why-is-hash-slower-under-python3-4-vs-python2-7
-## essentially, str hashing uses a different algorithm from python2.7 to python3
-## and hashing randomization is enabled by default in python3. Thats why tsrc is not
-## reproducible anymore
-#if sys.version_info[0] != 2:
-#        raise Exception("Python 2 is required or tsrc is not reproducible!!!!")
-
-## python 3: replace with a reproducible hash for generating time sources
-def myhash_str( _hashable):
-  """A hashing utility function for creating reproducible string hashes from input."""
-  return hashlib.sha224( str( _hashable).encode()).hexdigest()
-
-def myhash( _hashable):
-  """A hashing utility function for creating reproducible integer hashes from input."""
-  return int( myhash_str( _hashable), 16)
+# VERY IMPORTANT: use python2.7 or 
+# the tsrc location is NOT reproducible
+# see https://stackoverflow.com/questions/40137072/why-is-hash-slower-under-python3-4-vs-python2-7
+# essentially, str hashing uses a different algorithm from python2.7 to python3
+# and hashing randomization is enabled by default in python3. Thats why tsrc is not
+# reproducible anymore
+if sys.version_info[0] != 2:
+        raise Exception("Python 2 is required or tsrc is not reproducible!!!!")
 
 ## -- argument 1: gauge file location
 ## -- argumetn 2: jobid
@@ -140,47 +130,69 @@ flip_sink = False
 # source and sink relative displacement for 3pt functions non-zero momentum
 snk_disp_3pt = pmt_param['snk_disp_3pt']
 
-# randomize source points
-# stop doing this so stupidly
-def make_random_tstart( time_size, trajectory, series):
+# Randomize source points
+def make_random_tstart(time_size, trajectory):
   ## -- approximately randomize over tstart, want something reproduceable
-  def prn_timeslice( traj, series, dim):
-    return myhash( myhash( str(traj) +"_" +str(series) +"timeslice")) % dim
-  tstart = prn_timeslice( trajectory, series, time_size //2) *2 ## even only
-  return tstart
-
-def make_random_spatial_coor( spatial_size, trajectory, t0, series):
-  def prn_spatial( traj, series, dim):
-    return myhash( myhash( str(traj) +"_" +str(series) +"spatial")) % dim
-  ## add some random large primes to series
-  xstart = prn_spatial( trajectory, series+2161, spatial_size //2) *2 ## even only
-  ystart = prn_spatial( trajectory, series+5023, spatial_size //2) *2 ## even only
-  zstart = prn_spatial( trajectory, series+7919, spatial_size //2) *2 ## even only
-  return [xstart, ystart, zstart]
+  series = 0
+  def prn_timeslice(traj,series,dim):
+    return hash(hash(str(traj)+str(series)+"x")) % dim
+  ## -- prn sometimes gets stuck in infinite loop
+  ##    altering with rnchg gets out of loop
+  ##    constructed in a way to prevent breaking those that did work after few iters
+  rniter = 0
+  rnchg = ''
+  tstart = -1
+  while (tstart % 2 == 1):
+    tstart = prn_timeslice(str(int(trajectory)+max(tstart,0))+rnchg,series,time_size)
+    rniter += 1
+    if rniter % 10 == 9:
+      rnchg = rnchg + str(tstart)
+  return int(tstart)
+def make_random_spatial_coor(t0, trajectory, spatial_size):
+  def _iter_hash(inp):
+    return str(hash(str(inp)))
+  def _make_even(num):
+    if num%2 == 0: return num
+    else: return(num+1)
+  r = []
+  for ic in range(3):
+    ik = 0
+    hashstr = str(t0) + "_random_" + str(trajectory) + "imrandomstring"
+    while ik < ic+1:
+      hashstr = _iter_hash(hashstr+ "imanotherrandomstring") 
+      ik += 1
+    r.append(_make_even(int(hashstr))%spatial_size)
+  return r
+s_size=int(dim[0])
+t_size=int(dim[3])
+tstart = make_random_tstart(t_size, trajc)
 
 ## stupid fn to randomize cube index over tsrc,tins,trajectory,series and solve number
 ## make sure subsequent solves always give different cube indices
-def make_random_cube( tsrc, tins, traj, num, series):
-  def prn_cube( tsrc, tins, traj, series):
-    return myhash( myhash( str(tsrc) +"_" +str(tins) +"_" +str(traj) +"_" +str(series) +"cube"))
-  if num > 7:
+def prn_cube(tsrc,tins,traj,series,num):
+  if num > 8:
     raise IndexError("only 8 cube sites allowed; all used")
-  offset = [281, 659, 1069, 1373, 1657, 2129, 2617, 3079]
-  cleft = list( range( 8))
-  for i in range( num+1):
-    crand = prn_cube( tsrc, tins, traj, series +offset[i])
-    i8 = 8 -i
-    j = crand %i8
-    next_cube = cleft.pop( j)
-    crand //= i8
-  return next_cube
-
-series = 0
-s_size=int(dim[0])
-t_size=int(dim[3])
-tstart = make_random_tstart( t_size, trajc, series)
-
+  x = str(hash(hash(str(tsrc)+'y'+str(tins)+'z'+str(traj)+'t'+str(series)+'x')))[2:]
+  t = list(range(8))
+  it = 0
+  c = -1
+  for it in range(num+1):
+    c += 1
+    if c == len(x):
+      x = str(hash(x))[2:]
+      c = 0
+    while int(x[c]) > len(t)-1:
+      c += 1
+      if c == len(x):
+        x = str(hash(x))[2:]
+        c = 0
+    rval = t.pop(int(x[c]))
+  return rval
 timeBC = "antiperiodic"
+# srcTimeslices done so far: 0, 16, 32, 48
+# todo: 8, 24, 40, 56
+
+
 num_sets = 1
 srcTimeslices = tuple([src_t0]*100) # point, gauss smear, xport, and cornerwall
 srcTypeList = tuple(["point", "xport", "gauss"]*num_sets)
@@ -332,7 +344,7 @@ prompt = 0
 wkflName = 'workflow-test-brw'
 ## putting numbers at end doesn't change seed by much
 rndSeries = 'rnd0series'
-spect = ks_spectrum(wkflName,dim,np.abs(myhash(rndSeries)),'job-test-baryon-ks-spectrum',sciDAC,prompt)
+spect = ks_spectrum(wkflName,dim,np.abs(hash(rndSeries)),'job-test-baryon-ks-spectrum',sciDAC,prompt)
 
 uLoad = ('reload_parallel', gaugefile)
 
@@ -380,7 +392,7 @@ for i,(tsrc,srctype,srcbase,idx,mom,tag,srclabel) in enumerate(zip(
     vecdisp = [[0,0,0],[1,0,0],[0,1,0],[1,1,0],
                 [0,0,1],[1,0,1],[0,1,1],[1,1,1]]
 
-    space_origin = make_random_spatial_coor( s_size, trajc, torigin, series)
+    space_origin = make_random_spatial_coor(torigin, trajc, s_size)
     ptsrc_label = True
     ptdisp = [list(np.array(space_origin)+np.array(ivdisp))+[torigin] for ivdisp in vecdisp]
     for iptcorner in range(8):
@@ -859,10 +871,7 @@ def make_gb3cor(sink_type):
         for kcls in [xcls for xcls in clsList[sym,kgts] if xcls in kclsCut]:
          barLabel = nam +"_b_"+ gtsCode[cgts] +"_"+ symCode[sym] +"_"+ \
            str(ccls) +"_"+ gtsCode[kgts] +"_"+ symCode[sym] +"_"+str(kcls)+"_"+str(snk_disp_3pt)+"_"+sink_type+"_"+cubetie
-         gb2corBoth.append( GBBaryon2pt(
-           barLabel,(phase,op,factor), cgts,sym,ccls, kgts,sym,kcls,
-           snk_disp_3pt, sink_type, cubetie
-         ))
+         gb2corBoth.append(GBBaryon2pt(barLabel,(phase,op,factor),cgts,sym,ccls,kgts,sym,kcls,snk_disp_3pt,sink_type,cubetie))
     return gb2corBoth
 
 def make_gb3cor_nonzero(sink_type):
@@ -1053,7 +1062,7 @@ if True:
 
       # Determine if we use point src
       if ptsrc_label:
-        space_origin = make_random_spatial_coor( s_size, trajc, torigin, series)
+        space_origin = make_random_spatial_coor(torigin, trajc, s_size)
         rx = space_origin[0]
         ry = space_origin[1]
         rz = space_origin[2]
@@ -1097,7 +1106,7 @@ for m, spec in enumerate(insSpec):
         doLoad = srcDoLoad[0] # hack for multiple sink smearings
         # Determine if we use point src
         if ptsrc_label:
-          space_origin = make_random_spatial_coor( s_size, trajc, torigin, series)
+          space_origin = make_random_spatial_coor(torigin, trajc, s_size)
           rx = space_origin[0]
           ry = space_origin[1]
           rz = space_origin[2]
@@ -1106,7 +1115,7 @@ for m, spec in enumerate(insSpec):
           tsinp = torigin
 
         if doCubeProject:
-          cubeIdx = make_random_cube( tsrc, ti, trajc, cube, series)
+          cubeIdx = prn_cube(tsrc,ti,trajc,series,cube)
         else:
           subset = 'full'
           cubeIdx = 8
