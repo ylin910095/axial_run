@@ -12,16 +12,6 @@ parent_fp = os.path.dirname(os.path.dirname(os.path.abspath(os.path.realpath((__
 sys.path.append(parent_fp)
 from run_db.ensemble_db import *
 
-
-## VERY IMPORTANT: use python2.7 or 
-## the tsrc location is NOT reproducible
-## see https://stackoverflow.com/questions/40137072/why-is-hash-slower-under-python3-4-vs-python2-7
-## essentially, str hashing uses a different algorithm from python2.7 to python3
-## and hashing randomization is enabled by default in python3. Thats why tsrc is not
-## reproducible anymore
-#if sys.version_info[0] != 2:
-#        raise Exception("Python 2 is required or tsrc is not reproducible!!!!")
-
 ## python 3: replace with a reproducible hash for generating time sources
 def myhash_str( _hashable):
   """A hashing utility function for creating reproducible string hashes from input."""
@@ -71,7 +61,7 @@ else:
   lqcdDir = projDir
 
 # Load pmt information from database
-if len(sys.argv) == 3 or len(sys.argv) == 7:
+if 0 and (len(sys.argv) == 3 or len(sys.argv) == 7):
   run_db = sys.argv[1]
   rundb_id = int(sys.argv[2])
   db_engine = create_engine('sqlite:///' + run_db, connect_args={'timeout': 10})
@@ -83,7 +73,7 @@ if len(sys.argv) == 3 or len(sys.argv) == 7:
   pmt_file = qs.pmt_param.pmt_file
   session.close()
   db_engine.dispose()
-  
+
 # Check to make sure we are using the right pmt file for this param
 fullpath = os.path.dirname(os.path.abspath(os.path.realpath((__file__)))) +\
             '/' + os.path.basename(__file__)
