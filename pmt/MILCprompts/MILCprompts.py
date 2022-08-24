@@ -304,7 +304,7 @@ class GeneralSource8Container:
     _Template = """
     #== source octet ${id}: ${_classType} ==
     octet $source[0].id $modifd[0].id $modifd[1].id $modifd[2].id $modifd[3].id $modifd[4].id $modifd[5].id $modifd[6].id"""
-    def __init__(self,src,label,save,useLinks,isBaseSrc):
+    def __init__(self,src,label,save,isBaseSrc):
         self._classType = self.__class__.__name__
         self._objectID = self._classType+'_'+base36(id(self))
         self.source = list()
@@ -318,7 +318,7 @@ class GeneralSource8Container:
         self.isBaseSrc = isBaseSrc
         for i in range(7):
             self.modifd.append(ParallelTransportModSource(self.source[0],
-              useLinks,len(vecStr[i+1]),vecStr[i+1],
+              len(vecStr[i+1]),vecStr[i+1],
               NameFormatCube(label,vecStr[i+1]),NameFormatCube(save,vecStr[i+1])))
             pass
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
