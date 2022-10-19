@@ -195,7 +195,7 @@ if 0 and (len(sys.argv) == 3 or len(sys.argv) == 7):
 sciDAC = None # { 'node': [ 4, 4, 4, 8 ], 'io': [ 4, 4, 4, 8 ] }
 prompt = 0
 spect = ks_spectrum(
-  workflow_name, dim, np.abs( myhash( MILC_prn_series)),
+  workflow_name, dim, np.abs( myhash( MILC_prn_series)) %np.power(2,62),
   job_name, sciDAC, prompt)
 
 #gFix = 'coulomb_gauge_fix'
@@ -343,7 +343,7 @@ residuals = {
   'R2': pmt_param['inversion']['R2'],
 }
 solvePrecision = 2
-naik = (0,0)
+naik = [0]
 masses = [ qmass[0] ] ## always physical
 
 if args.force_source_recreate or not( os.path.exists( z3_file)):
@@ -352,7 +352,7 @@ if args.force_source_recreate or not( os.path.exists( z3_file)):
   load = ("fresh_ksprop",)
   save = ("forget_ksprop",)
   dummy_elem = KSsolveElement(
-    masses[0], naik, load, save, residuals)
+    masses[0], naik[0], load, save, residuals)
   dummy_set = KSsolveSet(
     z3src_dump, momTwist, timeBC, check, CGparamLoad, solvePrecision)
   dummy_set.addPropagator( dummy_elem)
@@ -446,6 +446,7 @@ for source_momentum in z3_props.keys():
     insertion_tag = gen_hex( op[0], op[1])
     subset = "full"
     mass = masses[0]
+    naik_i = naik[0]
 
     for tau in pmt_param[ "tau_list"]:
       insertion_time = time_origin +tau
@@ -478,7 +479,7 @@ for source_momentum in z3_props.keys():
           load = ("reload_parallel_ksprop", z3_file)
           save = ("forget_ksprop",)
         z3seq_inv = KSInverseSink8Container(
-          z3seq_src, mass, naik, u0, CGparamFresh,
+          z3seq_src, mass, naik_i, u0, CGparamFresh,
           residuals, solvePrecision, uOrigin,
           momTwist, timeBC, label, save)
         z3_seq_propagators[ tau, insertion_momentum] = z3seq_inv
