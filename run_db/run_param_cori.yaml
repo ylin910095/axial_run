@@ -1,0 +1,59 @@
+l6496f211b630m0012m0363m432_continue:
+    loc: /global/cfs/cdirs/m3652/hisq/l6496f211b630m0012m0363m432
+
+    max_jobs: 30 # maximum number of jobs in queue at the same time
+    # Shell command that returns the number of queued jobs
+    check_jobs_command: "squeue -u ylin|wc -l"
+
+    # The shell command for checking the number of jobs in queue
+    cluster_param: 
+            # Note that "#SBATCH --output=blah" will be automatically
+            # added during the run time and saved to ${datadir}/slurmout
+            # directory
+            slurm_header:
+                - "#SBATCH --account=m3926"
+                - "#SBATCH --nodes=8"
+                - "#SBATCH --ntasks-per-node=4"
+                - "#SBATCH --cpus-per-task=32"
+                - "#SBATCH --time=24:00:00"
+                - "#SBATCH --partition=long"
+                - "#SBATCH --job-name=a009"
+                - "#SBATCH --constraint=knl"
+                - "#SBATCH --qos=regular"
+                - "#SBATCH --mail-user=99liny@gmail.com"
+                - "#SBATCH --mail-type=FAIL,TIME_LIMIT"
+            module_command: 
+                - conda activate py27
+            no_config: 1 # number of configurations running in parallel per job for bundling purpose
+            mpi_rank_per_node: 4 # make sure it matches slurm_header --nodes
+            openmp_thread_per_rank: 32 # make sure it matches slurm header --ntasks-per-node
+            QUDA_RESOURCE_PATH: nan # tunning file folder for QUDA. Ignored if not using GPUs.                                                                                 
+
+            projdir: /global/u2/y/ylin/axial_run # the directory of the scripts
+
+            # Data saving directory: 
+            # $datadir/corr for correlator, $datadir/prop for propagators, and so on
+            # if not directory not present, it will be created
+            datadir: /global/u2/y/ylin/data/a009_phy # data saving directory
+            rundb: a009.sqlite # the name of this file, searched under projdir/run_db
+            milcbin: ks_spectrum_hisq_gb_baryon_blind_no_sink_links_newblind_newbin # searched under projdir/bin
+
+            # Scratch directory for intermediate correlator files
+            # The script will create a unique scrach folder for each job within this folder
+            scratchdir: /global/cscratch1/sd/ylin
+
+    # All pmt tasks, this correponds to the parameters required for pythonprompt
+    # defined in the cluster param
+    pmt_file: /sdcc/u/ylin/axial/input_dir/knl/omega_axial_run/pmt/pmt_2pt_strange.py
+    pmt_param: 
+        a009_phy_mass0_t48:
+            t0: 0
+            mass: 0.0363
+            gauss_smearing:
+                r0: 4.0
+                N: 60
+            inversion:
+                L2: 1e-12
+                R2: 0
+                restarts: 50
+                iters: 1000
