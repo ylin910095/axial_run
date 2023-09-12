@@ -17,6 +17,11 @@ from pmt_2pt_kernel import pmt_2pt_kernel
 # essentially, str hashing uses a different algorithm from python2.7 to python3
 # and hashing randomization is enabled by default in python3. Thats why tsrc is not
 # reproducible anymore
+
+# Update Sep 12, 2023: 
+# I have updated the script to python3 with deterministic hashing function. In this case, 
+# the random tsrc is reproducible given the same gauge configuration. However, python2 and 
+# and python3 will give different random tsrc, so be aware.
 if sys.version_info[0] != 2:
     import zlib
     # redefine hash function for tsrc randomization
