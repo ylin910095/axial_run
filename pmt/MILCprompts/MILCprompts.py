@@ -1,7 +1,7 @@
 import sys
 import textwrap
 from Cheetah.Template import Template
-from nameFormat import *
+from .nameFormat import *
 
 def base36(n):
     """Convert a positive integer to a base36 string."""
@@ -48,7 +48,7 @@ class Geometry:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -84,7 +84,7 @@ class Gauge:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -125,7 +125,7 @@ class PointSource:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         pass
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -159,7 +159,7 @@ class EvenMinusOddWallSource:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         pass
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -193,7 +193,7 @@ class EvenAndOddWallSource:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         pass
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -221,7 +221,7 @@ class CornerWall8Container:
             pass
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def addSourcesToSpectrum(self,spect):
         for i in range(8):
@@ -259,7 +259,7 @@ class VectorField8Container:
 
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def addSourcesToSpectrum(self,spect):
         for i in range(8):
@@ -287,9 +287,9 @@ class BaseSource8Container:
         #pass
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
-    def addSourcesToSpectrum(self,spect, baseSrc=True):
+    def addSourcesToSpectrum(self,spect, baseSrc=True,):
         for i in range(8):
             if baseSrc:
               spect.addBaseSource(self.source[i])
@@ -323,7 +323,7 @@ class GeneralSource8Container:
             pass
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def addSourcesToSpectrum(self,spect):
         if self.isBaseSrc:
@@ -374,7 +374,7 @@ class ExtSrc8Modification:
             self.modifd.append(appendV)
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def addSourcesToSpectrum(self,spect):
         for i in range(8):
@@ -409,7 +409,7 @@ class GeneralSource8Modification:
             pass
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def addSourcesToSpectrum(self,spect):
         for i in range(8):
@@ -439,7 +439,7 @@ class BaryonRandomWallSource:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         pass
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -479,7 +479,7 @@ class RandomColorWallSource:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         pass
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -523,7 +523,7 @@ class CornerWallSource:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         pass
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -564,7 +564,7 @@ class VectorFieldSource:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -610,7 +610,7 @@ class DiracFieldSource:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -650,7 +650,7 @@ class KSExtSrc:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -688,7 +688,7 @@ class ParallelTransportModSource:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -727,7 +727,7 @@ class MomentumModSource:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -769,7 +769,7 @@ class RadialWavefunction:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -810,7 +810,7 @@ class FermilabRotation:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -853,7 +853,7 @@ class CovariantGaussian:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -897,7 +897,7 @@ class FatCovariantGaussian:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -939,7 +939,7 @@ class FatCovariantLaplacian:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -977,7 +977,7 @@ class FatCovariantGaussianSink:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -1011,7 +1011,7 @@ class FatCovariantLaplacianSink:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -1059,7 +1059,7 @@ class SolveKS:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -1109,7 +1109,7 @@ class SolveClover:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -1265,7 +1265,7 @@ class QuarkIdentitySink:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -1304,7 +1304,7 @@ class SaveVectorSrc:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     pass
 
@@ -1323,7 +1323,7 @@ class KSQuarkOctet:
         self.qk8 = qk8
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -1361,7 +1361,7 @@ class RadialWavefunctionSink:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -1398,7 +1398,7 @@ class FermilabRotateSink:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -1439,7 +1439,7 @@ class DiracExtSrcSink:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -1478,7 +1478,7 @@ class KSExtSrcSink:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -1544,7 +1544,7 @@ class KSExtSrcSink8Container:
         #    pass
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -1597,7 +1597,7 @@ class KSInverseSink:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -1693,7 +1693,7 @@ class DiracInverseSink:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -1728,7 +1728,7 @@ class MesonSpectrum:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         for c in self.npts:
             c.generate(ostream)
         return
@@ -1761,7 +1761,7 @@ class MesonNpt:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
 
 class BaryonSpectrum:
@@ -1787,7 +1787,7 @@ class BaryonSpectrum:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         for c in self.nbcor:
             c.generate(ostream)
         return
@@ -1822,7 +1822,7 @@ class Baryon2pt:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
 
 class RuiziBaryonSpectrum:
@@ -1853,7 +1853,7 @@ class RuiziBaryonSpectrum:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def sortQuarks(self,quark8):
         """Reorder single quarks to fit Ruizi convention"""
@@ -1926,7 +1926,7 @@ class GBBaryonSpectrum:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         for c in self.nbcor:
             c.generate(ostream)
         return
@@ -1969,7 +1969,7 @@ class GBBaryon2pt:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
 
 class GBBaryon3ptFunction:
@@ -2019,20 +2019,20 @@ class GBBaryon3ptFunction:
         self.currentList.append(curr)
         return
     def generate(self,ostream):
-        print>>ostream, self._template
-        print>>ostream, 'number_of_sink_specifications', len(self.sinkTimeslice)
+        print(self._template, file=ostream)
+        print('number_of_sink_specifications', len(self.sinkTimeslice), file=ostream)
         for x in self.sinkTimeslice:
             x.generate(ostream)
             pass
-        print>>ostream, 'number_of_momenta', len(self.momentumList)
+        print('number_of_momenta', len(self.momentumList), file=ostream)
         for x in self.momentumList:
             x.generate(ostream)
             pass
-        print>>ostream, 'number_of_3pt_correlators', len(self.correlatorList)
+        print('number_of_3pt_correlators', len(self.correlatorList), file=ostream)
         for x in self.correlatorList:
             x.generate(ostream)
             pass
-        print>>ostream, 'number_of_current_insertions', len(self.currentList)
+        print('number_of_current_insertions', len(self.currentList), file=ostream)
         for x in self.currentList:
             x.generate(ostream)
             pass
@@ -2077,12 +2077,12 @@ class GBBaryon3ptSinkTimeSlice:
         if treverse == "yes+" or treverse == "yes-" or treverse == "no":
           self.treverse = treverse
         else:
-          print "invalid time reversal string!"
+          print("invalid time reversal string!")
           raise ValueError
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -2118,7 +2118,7 @@ class GBBaryon3ptMomentum:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -2151,7 +2151,7 @@ class GBBaryon3ptCorrelator:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
 
 class GBBaryon3ptCurrent:
@@ -2166,7 +2166,7 @@ class GBBaryon3ptCurrent:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
 
 class _Cycle_su3_clov:
@@ -2182,39 +2182,39 @@ class _Cycle_su3_clov:
         return
     def generate(self,ostream):
         self.gauge.generate(ostream)
-        print>>ostream, 'max_cg_iterations', self.maxIters
-        print>>ostream, 'max_cg_restarts', self.maxRestarts
-        print>>ostream
-        print>>ostream, '########### base sources ###############'
-        print>>ostream
-        print>>ostream, 'number_of_base_sources', len(self.bsource)
+        print('max_cg_iterations', self.maxIters, file=ostream)
+        print('max_cg_restarts', self.maxRestarts, file=ostream)
+        print(file=ostream)
+        print('########### base sources ###############', file=ostream)
+        print(file=ostream)
+        print('number_of_base_sources', len(self.bsource), file=ostream)
         for x in self.bsource:
             x.generate(ostream)
             pass
-        print>>ostream
-        print>>ostream, '########### modified sources ###############'
-        print>>ostream
-        print>>ostream, 'number_of_modified_sources', len(self.msource)
+        print(file=ostream)
+        print('########### modified sources ###############', file=ostream)
+        print(file=ostream)
+        print('number_of_modified_sources', len(self.msource), file=ostream)
         for x in self.msource:
             x.generate(ostream)
             pass
-        print>>ostream
-        print>>ostream, '########### propagators ###############'
-        print>>ostream
-        print>>ostream, 'number_of_propagators', len(self.propagator)
+        print(file=ostream)
+        print('########### propagators ###############', file=ostream)
+        print(file=ostream)
+        print('number_of_propagators', len(self.propagator), file=ostream)
         for x in self.propagator:
             x.generate(ostream)
-        print>>ostream
-        print>>ostream, '########### quarks ###############'
-        print>>ostream
-        print>>ostream, 'number_of_quarks', len(self.quark)
+        print(file=ostream)
+        print('########### quarks ###############', file=ostream)
+        print(file=ostream)
+        print('number_of_quarks', len(self.quark), file=ostream)
         for x in self.quark:
             x.generate(ostream)
             pass
-        print>>ostream
-        print>>ostream, '########### mesons ###############'
-        print>>ostream
-        print>>ostream, 'number_of_pairings', len(self.spectrum)
+        print(file=ostream)
+        print('########### mesons ###############', file=ostream)
+        print(file=ostream)
+        print('number_of_pairings', len(self.spectrum), file=ostream)
         for x in self.spectrum:
             x.generate(ostream)
         return
@@ -2312,17 +2312,17 @@ class su3_clov:
         """Bind indices to sources, propagators and quarks."""
         for cy in self.cycle:
             nbs = len(cy.bsource)
-            for idx, s in zip(range(nbs),cy.bsource):
+            for idx, s in zip(list(range(nbs)),cy.bsource):
                 s.id = idx
                 pass
             nms = len(cy.msource)
-            for idx, s in zip(range(nbs,nbs+nms),cy.msource):
+            for idx, s in zip(list(range(nbs,nbs+nms)),cy.msource):
                 s.id = idx
                 pass
-            for idx, p in zip(range(len(cy.propagator)),cy.propagator):
+            for idx, p in zip(list(range(len(cy.propagator))),cy.propagator):
                 p.id = idx
                 pass
-            for idx, q in zip(range(len(cy.quark)),cy.quark):
+            for idx, q in zip(list(range(len(cy.quark))),cy.quark):
                 q.id = idx
                 pass
         return
@@ -2442,13 +2442,16 @@ class KSsolveSet:
     """A set of KS solves that have a common source specification, momentum twist, BC and precision."""
     _Template = """
     #== ${_classType} ==
+    set_type ${set_type}
+    inv_type ${inv_type}
     max_cg_iterations ${maxCG.iters}
     max_cg_restarts ${maxCG.restarts}
     check ${check}
     momentum_twist #echo ' '.join(map(str,$twist))#
     precision ${precision}
     source ${source.id}"""
-    def __init__(self,source,twist,bc,check,maxCG,precision):
+    def __init__(self,source,twist,bc,check,maxCG,
+                 precision,set_type='single', inv_type='CG'):
         self._classType = self.__class__.__name__
         self._objectID = self._classType+'_'+base36(id(self))
         self.source = source
@@ -2457,6 +2460,8 @@ class KSsolveSet:
         self.check = check
         self.maxCG = maxCG
         self.precision = precision
+        self.set_type = set_type
+        self.inv_type = inv_type
         self.propagator = list()
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
@@ -2474,8 +2479,8 @@ class KSsolveSet:
         self.propagator.append(prop)
         return prop
     def generate(self,ostream):
-        print>>ostream, self._template
-        print>>ostream, 'number_of_propagators', len(self.propagator)
+        print(self._template, file=ostream)
+        print('number_of_propagators', len(self.propagator), file=ostream)
         for p in self.propagator:
             p.generate(ostream)
             pass
@@ -2521,7 +2526,7 @@ class KSsolveElement:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -2582,8 +2587,8 @@ class KSsolveSet_MultiSource:
         self.propagator.append(prop)
         return prop
     def generate(self,ostream):
-        print>>ostream, self._template
-        print>>ostream, 'number_of_propagators', len(self.propagator)
+        print(self._template, file=ostream)
+        print('number_of_propagators', len(self.propagator), file=ostream)
         for p in self.propagator:
             p.generate(ostream)
             pass
@@ -2624,7 +2629,7 @@ class KSsolveElement_MultiSource:
         self._template = Template(source=textwrap.dedent(self._Template),searchList=vars(self))
         return
     def generate(self,ostream):
-        print>>ostream, self._template
+        print(self._template, file=ostream)
         return
     def dataflow(self):
         wname = self._objectID
@@ -2728,11 +2733,11 @@ class ks_spectrum:
         """Bind indices to sources, propagators, quarks, octets, and 3-points."""
         for cy in self.cycle:
             nbs = len(cy.bsource)
-            for idx, s in zip(range(nbs),cy.bsource):
+            for idx, s in zip(list(range(nbs)),cy.bsource):
                 s.id = idx
                 pass
             nms = len(cy.msource)
-            for idx, s in zip(range(nbs,nbs+nms),cy.msource):
+            for idx, s in zip(list(range(nbs,nbs+nms)),cy.msource):
                 s.id = idx
                 pass
             idx = 0
@@ -2742,18 +2747,18 @@ class ks_spectrum:
                     idx += 1
                     pass
                 pass
-            for idx, q in zip(range(len(cy.quark)),cy.quark):
+            for idx, q in zip(list(range(len(cy.quark))),cy.quark):
                 q.id = idx
                 pass
-            for idx, oc in zip(range(len(cy.scoctet)),cy.scoctet):
+            for idx, oc in zip(list(range(len(cy.scoctet))),cy.scoctet):
                 oc.id = idx
                 pass
             #print cy.qkoctet
-            for idx, oc in zip(range(len(cy.qkoctet)),cy.qkoctet):
+            for idx, oc in zip(list(range(len(cy.qkoctet))),cy.qkoctet):
                 #print idx,oc
                 oc.id = idx
                 pass
-            for idx0, gb3 in zip(range(len(cy.gb3pt)),cy.gb3pt):
+            for idx0, gb3 in zip(list(range(len(cy.gb3pt))),cy.gb3pt):
                 gb3.id = idx0
                 #for idx1, tsk in zip(range(len(gb3.sinkTimeslice)),gb3.sinkTimeslice):
                 #    tsk.id = str(idx0)+'.'+str(idx1)
@@ -2799,27 +2804,27 @@ class _Cycle_ks_spectrum:
         return
     def generate(self,ostream):
         self.gauge.generate(ostream)
-        print>>ostream, 'max_number_of_eigenpairs 0'
-        print>>ostream, 'number_of_pbp_masses 0'
-        print>>ostream, 'number_of_base_sources', len(self.bsource)
+        print('max_number_of_eigenpairs 0', file=ostream)
+        print('number_of_pbp_masses 0', file=ostream)
+        print('number_of_base_sources', len(self.bsource), file=ostream)
         for x in self.bsource:
             x.generate(ostream)
             pass
-        print>>ostream, 'number_of_modified_sources', len(self.msource)
+        print('number_of_modified_sources', len(self.msource), file=ostream)
         for x in self.msource:
             x.generate(ostream)
             pass
-        print>>ostream, 'number_of_sets', len(self.pset)
+        print('number_of_sets', len(self.pset), file=ostream)
         for x in self.pset:
             x.generate(ostream)
-        print>>ostream, 'number_of_quarks', len(self.quark)
+        print('number_of_quarks', len(self.quark), file=ostream)
         for x in self.quark:
             x.generate(ostream)
             pass
-        print>>ostream, 'number_of_mesons', len(self.meson)
+        print('number_of_mesons', len(self.meson), file=ostream)
         for x in self.meson:
             x.generate(ostream)
-        print>>ostream, 'number_of_baryons', len(self.baryon)
+        print('number_of_baryons', len(self.baryon), file=ostream)
         for x in self.baryon:
             x.generate(ostream)
         if True:
@@ -2828,10 +2833,10 @@ class _Cycle_ks_spectrum:
             #for x in self.scoctet:
             #    x.generate(ostream)
             pass
-        print>>ostream, 'number_of_quark_octets', len(self.qkoctet)
+        print('number_of_quark_octets', len(self.qkoctet), file=ostream)
         for x in self.qkoctet:
             x.generate(ostream)
-        print>>ostream, 'number_of_gb_baryons', len(self.gbbaryon)
+        print('number_of_gb_baryons', len(self.gbbaryon), file=ostream)
         for x in self.gbbaryon:
             x.generate(ostream)
         if len(self.gb3pt) > 0 or self.gb3ptOn:
