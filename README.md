@@ -1,9 +1,6 @@
 ### Prerequisite
-- python2.7 (it is important to use 2.7 for MILCprompt because of the hashing algorithm changes in python 3.0)
+- python3 (note that due to changes to the hash function, the random tsrc produced by python3 will NOT be comptaible with those produced by python2. So do not mix them!)
 - scipy
 - pyyaml
 - sqlalchemy
-- https://pythonhosted.org/Cheetah/ (for MILCprompts)
-
-### Instructions
-To be updated for the form factor project...
+- https://cheetahtemplate.org/ (Cheetah3)
